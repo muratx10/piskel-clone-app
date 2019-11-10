@@ -1,2 +1,2 @@
-# muratx10-RS2019Q3
-Private repository for @muratx10
+# codejam-palette
+#### [Task description](https://github.com/rolling-scopes-school/tasks/blob/master/tasks/stage-2/codejam-palette/codejam-palette_en.md)
