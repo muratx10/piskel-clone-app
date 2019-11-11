@@ -1,4 +1,4 @@
-const {log} = console;
+const { log } = console;
 const Palette = {
   elements: {
     toolsContainer: document.querySelectorAll('.toolsContainer__item'),
@@ -11,7 +11,7 @@ const Palette = {
     ctx: document.getElementById('canvas').getContext('2d'),
   },
   colors: {
-    currentColor: null,
+    currentColor: '#000000',
     prevColor: '#F74141',
     red: '#F74141',
     blue: '#00BCD4',
@@ -21,7 +21,7 @@ const Palette = {
 
   },
   init() {
-    this.elements.prevColor.style.background = '#000000';
+    this.elements.prevColor.style.background = '#F74141';
     this.colors.currentColor = this.elements.currentColor.value.toString();
     this.state.activeTool = this.elements.pencil;
     this.pickColor();
@@ -48,6 +48,20 @@ const Palette = {
       255,
     ];
   },
+  RGBAtoHEX(RGBA) {
+    let hex = '#';
+    const rgba = RGBA
+      .replace('rgb', '')
+      .replace('(', '')
+      .replace(')', '')
+      .replace(' ', '')
+      .replace(' ', '')
+      .split(',');
+    rgba.forEach((i) => {
+      hex += Number(i).toString(16);
+    });
+    return hex;
+  },
   eventListeners() {
     window.addEventListener('mousedown', (e) => {
       if (e.target.closest('.toolsContainer__item')) {
@@ -69,6 +83,23 @@ const Palette = {
           fillImage.data[i + 3] = 255;
         }
         this.elements.ctx.putImageData(fillImage, 0, 0);
+      }
+      const targetID = e.target.id;
+      switch (targetID) {
+        case 'prevColor':
+          log(this.elements.prevColor.style.background);
+          this.colors.currentColor = this.RGBAtoHEX(this.elements.prevColor.style.background);
+          this.elements.currentColor.value = this.RGBAtoHEX(this.elements.prevColor.style.background);
+          break;
+        case 'red':
+          this.colors.currentColor = '#d40000';
+          this.elements.currentColor.value = '#d40000';
+          break;
+        case 'blue':
+          this.colors.currentColor = '#0b00d4';
+          this.elements.currentColor.value = '#0b00d4';
+          break;
+        default: break;
       }
     });
   },
