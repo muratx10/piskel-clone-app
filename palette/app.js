@@ -1,49 +1,77 @@
-const hexPixel4x4 = [
-  ['00BCD4', 'FFEB3B', 'FFEB3B', '00BCD4'],
-  ['FFEB3B', 'FFC107', 'FFC107', 'FFEB3B'],
-  ['FFEB3B', 'FFC107', 'FFC107', 'FFEB3B'],
-  ['00BCD4', 'FFEB3B', 'FFEB3B', '00BCD4'],
-];
+const {log} = console;
+const Palette = {
+  elements: {
+    toolsContainer: document.querySelectorAll('.toolsContainer__item'),
+    paintBucket: document.getElementById('paintBucket'),
+    colorPicker: document.getElementById('colorPicker'),
+    pencil: document.getElementById('pencil'),
+    currentColor: document.getElementById('input-color'),
+    prevColor: document.querySelector('#prevColor .circleColor'),
+    canvas: document.getElementById('canvas'),
+    ctx: document.getElementById('canvas').getContext('2d'),
+  },
+  colors: {
+    currentColor: null,
+    prevColor: '#F74141',
+    red: '#F74141',
+    blue: '#00BCD4',
+  },
+  state: {
+    activeTool: null,
 
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
+  },
+  init() {
+    this.elements.prevColor.style.background = '#000000';
+    this.colors.currentColor = this.elements.currentColor.value.toString();
+    this.state.activeTool = this.elements.pencil;
+    this.pickColor();
+    this.eventListeners();
+    this.elements.canvas.width = 512;
+    this.elements.canvas.height = 512;
+  },
+  pickColor() {
+    this.elements.currentColor.addEventListener('change', (e) => {
+      this.colors.prevColor = this.colors.currentColor;
+      this.elements.prevColor.style.background = this.colors.currentColor;
+      this.colors.currentColor = e.target.value;
+    });
+  },
+  fillBucket() {
 
-function drawPixel(width, height, data, inputType) {
-  canvas.width = width;
-  canvas.height = height;
+  },
+  hexToRGBA(hexStr) {
+    const hex = hexStr.replace('#', '');
+    return [
+      parseInt(hex.substr(0, 2), 16),
+      parseInt(hex.substr(2, 2), 16),
+      parseInt(hex.substr(4, 2), 16),
+      255,
+    ];
+  },
+  eventListeners() {
+    window.addEventListener('mousedown', (e) => {
+      if (e.target.closest('.toolsContainer__item')) {
+        const elementId = e.target.closest('.toolsContainer__item').id;
+        this.state.activeTool = elementId;
+        this.elements.toolsContainer.forEach((el) => {
+          el.classList.remove('active');
+        });
+        document.getElementById(elementId).classList.add('active');
+      }
 
-  ctx.clearRect(0, 0, width, height); // clear canvas context before
-  // drawing new context
+      if (e.target.tagName === 'CANVAS' && this.state.activeTool === 'paintBucket') {
+        const fillImage = this.elements.ctx.createImageData(this.elements.canvas.width, this.elements.canvas.height);
+        const currentColor = this.hexToRGBA(this.colors.currentColor);
+        for (let i = 0; i < fillImage.data.length; i += 4) {
+          fillImage.data[i + 0] = currentColor[0];
+          fillImage.data[i + 1] = currentColor[1];
+          fillImage.data[i + 2] = currentColor[2];
+          fillImage.data[i + 3] = 255;
+        }
+        this.elements.ctx.putImageData(fillImage, 0, 0);
+      }
+    });
+  },
+};
 
-  const concat = (xs, ys) => xs.concat(ys);
-
-  const hexToRGBA = (hexStr) => [
-    parseInt(hexStr.substr(0, 2), 16),
-    parseInt(hexStr.substr(2, 2), 16),
-    parseInt(hexStr.substr(4, 2), 16),
-    255,
-  ];
-
-  let flattenedRGBAValues = null;
-  if (inputType === 'hex') {
-    flattenedRGBAValues = data
-      .reduce(concat) // flatten array
-      .map(hexToRGBA) // convert HEX color to RGBA & return 2d array
-      .reduce(concat); // flatten array with RGBA color;
-  } else if (inputType === 'rgba') {
-    flattenedRGBAValues = data.reduce(concat).reduce(concat);
-  } else if (inputType === 'image') {
-    const img = new Image(); // create image
-    img.src = data; // apply image source
-    img.onload = function () {
-      ctx.drawImage(img, 0, 0); // when image is loaded, invoke draw
-      // method
-    };
-  }
-
-  const imgData = new ImageData(Uint8ClampedArray.from(flattenedRGBAValues), width, height);
-  ctx.putImageData(imgData, 0, 0);
-}
-
-// initialize app with 4x4 canvas draw
-drawPixel(4, 4, hexPixel4x4, 'hex');
+Palette.init();

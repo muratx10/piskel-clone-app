@@ -75,7 +75,7 @@ main {
     .toolsContainer__paintTools {
       height: 246px;
       box-shadow: 0 4px 4px rgba(0, 0, 0, 0.24),
-      0 0 4px rgba(0, 0, 0, 0.12);
+        0 0 4px rgba(0, 0, 0, 0.12);
       border-radius: 5px;
 
       .toolsContainer__item {
@@ -84,10 +84,13 @@ main {
         border-radius: 5px;
         padding: 5px;
         cursor: pointer;
+
         &:hover {
           background: $primaryColor;
         }
-        &:hover a, &:hover span {
+
+        &:hover a,
+        &:hover span {
           color: #FFFFFF;
         }
       }
@@ -112,61 +115,57 @@ main {
         user-select: none;
         color: $primaryColor;
       }
-
     }
 
     .toolsContainer__colorPicker {
       height: 246px;
       box-shadow: 0 4px 4px rgba(0, 0, 0, 0.24),
-      0 0 4px rgba(0, 0, 0, 0.12);
+        0 0 4px rgba(0, 0, 0, 0.12);
       border-radius: 5px;
+      position: relative;
 
       .color__item {
         display: block;
         font-family: 'Roboto', Arial, sans-serif;
         position: relative;
-        margin: 22px 10px;
-        padding: 5px 5px 5px 50px;
+        margin: 20px 10px;
+        padding: 4px;
         border-radius: 5px;
         color: $primaryColor;
         cursor: pointer;
         user-select: none;
         transition: 200ms;
         border: 1px solid transparent;
+        position: relative;
+
         &:hover {
           border: 1px solid $primaryColor;
         }
+
+        .circleColor {
+          display: inline-block;
+          width: 20px;
+          height: 20px;
+          border: 1px solid #000000;
+          border-radius: 50%;
+          margin-right: 10px;
+          transform: translateY(5px);
+        }
+      }
+      #red>span {
+        background: #FF0000;
+      }
+      #blue>span {
+        background: #0000FF;
       }
 
-      .color__item:before {
-        content: '';
-        display: block;
-        width: 20px;
-        height: 20px;
-        position: absolute;
-        top: 3px;
-        left: 3px;
-        border: 1px solid #000000;
-        border-radius: 50%;
-      }
 
-      .color__item:nth-child(1):before {
-        background: $primaryColor;
-      }
-
-      .color__item:nth-child(2):before {
-        background: #41F795;
-      }
-
-      .color__item:nth-child(3):before {
-        background: #F74141;
-      }
-
-      .color__item:nth-child(4):before {
-        background: #41B5F7;
-      }
     }
 
+  }
+
+  .input-color-label {
+    margin-left: 5px;
   }
 
   .canvasSection {
@@ -177,20 +176,45 @@ main {
 
   canvas {
     image-rendering: pixelated;
-  }
-
-  #canvas {
     width: 512px;
     height: 512px;
     margin: 50px;
     border: 1px $primaryColor solid;
   }
 
+  .input-color-container {
+    position: relative;
+    overflow: hidden;
+    width: 20px;
+    height: 20px;
+    border: solid 1px #000000;
+    border-radius: 40px;
+    display: inline-block;
+    transform: translateY(5px);
+  }
+
+  .input-color {
+    position: absolute;
+    right: -8px;
+    top: -8px;
+    width: 56px;
+    height: 56px;
+    border: none;
+  }
+
+  .input-color-label {
+    cursor: pointer;
+    text-decoration: none;
+    font-family: Roboto;
+    color: $primaryColor;
+    line-height: 20px;
+  }
+
   .sideBar {
     width: 228px;
     height: 200px;
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.24),
-    0 0 4px rgba(0, 0, 0, 0.12);
+      0 0 4px rgba(0, 0, 0, 0.12);
     border-radius: 5px;
 
     .sideBar__item {
@@ -209,18 +233,20 @@ main {
       transition: 200ms;
       border: 1px solid transparent;
       border-radius: 5px;
+
       &:hover {
         border: 1px solid $primaryColor;
       }
-      &:hover input ~ .checkmark {
+
+      &:hover input~.checkmark {
         background-color: #CCCCCC;
       }
 
-      & input:checked ~ .checkmark {
+      & input:checked~.checkmark {
         background-color: #2196F3;
       }
 
-      & input:checked ~ .checkmark:after {
+      & input:checked~.checkmark:after {
         display: block;
       }
 
@@ -254,4 +280,8 @@ main {
       }
     }
   }
+}
+
+.active {
+  background: lighten(#2196F3, 35%);
 }
