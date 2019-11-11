@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
+    <title>Piskel Clone</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap"
+          rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+
+<body>
+<header>
+    <nav class="appMenuBtn">
+        <span class="appMenuBtn__item"></span>
+        <span class="appMenuBtn__item"></span>
+        <span class="appMenuBtn__item"></span>
+    </nav>
+    <h1 class="mainTitle">CodeJam - Palette</h1>
+    <div class="sideMenu">
+
+    </div>
+</header>
+
+<main>
+    <div class="toolsContainer">
+        <div class="toolsContainer__paintTools">
+            <div class="toolsContainer__item">
+                <a class="icon-paint-bucket" href="#"></a>
+                <span>Paint bucket</span>
+            </div>
+            <div class="toolsContainer__item">
+                <a class="icon-color-picker" href="#"></a>
+                <span>Choose a color</span>
+            </div>
+            <div class="toolsContainer__item">
+                <a class="icon-move" href="#"></a>
+                <span>Move</span>
+            </div>
+            <div class="toolsContainer__item">
+                <a class="icon-transform" href="#"></a>
+                <span>Transform</span>
+            </div>
+        </div>
+        <div class="toolsContainer__colorPicker">
+            <span class="color__item">Current color</span>
+            <span class="color__item">Prev color</span>
+            <span class="color__item">red</span>
+            <span class="color__item">blue</span>
+        </div>
+    </div>
+    <div class="canvasSection">
+        <canvas id="canvas"></canvas>
+    </div>
+    <div class="sideBar">
+        <div class="sideBar__radioBtns">
+            <label class="sideBar__item" onclick="drawPixel(4, 4,
+                hexPixel4x4,
+                'hex')">4x4
+                <input checked="checked" name="radio" type="radio" value="4">
+                <span class="checkmark"></span>
+            </label>
+            <label class="sideBar__item"
+                   onclick="drawPixel(32, 32, hexPixel32x32, 'rgba')">32x32
+                <input name="radio" type="radio" value="32">
+                <span class="checkmark"></span>
+            </label>
+            <label class="sideBar__item"
+                   onclick="drawPixel(256, 256,
+                       './assets/data/image.png', 'image')">256x256
+                <input name="radio" type="radio" value="256">
+                <span class="checkmark"></span>
+            </label>
+        </div>
+    </div>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

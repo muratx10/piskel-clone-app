@@ -1,0 +1,257 @@
+$primaryColor: #757575;
+
+@import "iconFonts";
+
+body {
+  margin: 0;
+}
+
+header {
+  display: grid;
+  grid: 1fr / 20px 1fr 20px;
+  grid-column-gap: 25px;
+  align-items: center;
+  height: 48px;
+  margin-bottom: 75px;
+  padding: 10px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.24), 0 0 4px rgba(0, 0, 0, 0.12);
+
+  .appMenuBtn {
+    display: inline-block;
+    width: 24px;
+    cursor: pointer;
+    transition: 200ms;
+
+    &:hover {
+      background: $primaryColor;
+    }
+
+    &:hover .appMenuBtn__item {
+      background: #FFFFFF;
+    }
+
+    .appMenuBtn__item {
+      display: block;
+      width: 18px;
+      height: 3px;
+      margin: 3px;
+      transition: 200ms;
+      background: $primaryColor;
+    }
+  }
+
+  .mainTitle {
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    font-weight: normal;
+    margin: 0;
+  }
+
+  .sideMenu {
+    align-self: center;
+    width: 20px;
+    height: 100%;
+    cursor: pointer;
+    transition: 200ms;
+    background: url("assets/menu_icon.svg") no-repeat 50% 50%;
+
+    &:hover {
+      transform: rotate(90deg);
+    }
+  }
+}
+
+main {
+  display: grid;
+  grid: 1fr / 1fr minmax(600px, 100%) 1fr;
+  padding: 0 30px;
+
+  .toolsContainer {
+    display: grid;
+    grid: 1fr 1fr / 1fr;
+    width: 228px;
+    height: 100%;
+
+    .toolsContainer__paintTools {
+      height: 246px;
+      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.24),
+      0 0 4px rgba(0, 0, 0, 0.12);
+      border-radius: 5px;
+
+      .toolsContainer__item {
+        margin: 22px 10px;
+        transition: 200ms;
+        border-radius: 5px;
+        padding: 5px;
+        cursor: pointer;
+        &:hover {
+          background: $primaryColor;
+        }
+        &:hover a, &:hover span {
+          color: #FFFFFF;
+        }
+      }
+
+      a {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        font-family: 'Roboto', Arial, sans-serif;
+        font-size: 20px;
+        text-decoration: none;
+        color: $primaryColor;
+      }
+
+      span {
+        display: inline-block;
+        font-family: 'Roboto', Arial, sans-serif;
+        margin-left: 25px;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+        color: $primaryColor;
+      }
+
+    }
+
+    .toolsContainer__colorPicker {
+      height: 246px;
+      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.24),
+      0 0 4px rgba(0, 0, 0, 0.12);
+      border-radius: 5px;
+
+      .color__item {
+        display: block;
+        font-family: 'Roboto', Arial, sans-serif;
+        position: relative;
+        margin: 22px 10px;
+        padding: 5px 5px 5px 50px;
+        border-radius: 5px;
+        color: $primaryColor;
+        cursor: pointer;
+        user-select: none;
+        transition: 200ms;
+        border: 1px solid transparent;
+        &:hover {
+          border: 1px solid $primaryColor;
+        }
+      }
+
+      .color__item:before {
+        content: '';
+        display: block;
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        border: 1px solid #000000;
+        border-radius: 50%;
+      }
+
+      .color__item:nth-child(1):before {
+        background: $primaryColor;
+      }
+
+      .color__item:nth-child(2):before {
+        background: #41F795;
+      }
+
+      .color__item:nth-child(3):before {
+        background: #F74141;
+      }
+
+      .color__item:nth-child(4):before {
+        background: #41B5F7;
+      }
+    }
+
+  }
+
+  .canvasSection {
+    justify-self: center;
+    width: available;
+    min-width: 600px;
+  }
+
+  canvas {
+    image-rendering: pixelated;
+  }
+
+  #canvas {
+    width: 512px;
+    height: 512px;
+    margin: 50px;
+    border: 1px $primaryColor solid;
+  }
+
+  .sideBar {
+    width: 228px;
+    height: 200px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.24),
+    0 0 4px rgba(0, 0, 0, 0.12);
+    border-radius: 5px;
+
+    .sideBar__item {
+      display: block;
+      font-family: "Roboto", Arial, sans-serif;
+      font-size: 18px;
+      position: relative;
+      margin: 22px 5px;
+      padding: 7px 7px 7px 50px;
+      cursor: pointer;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      -webkit-user-select: none;
+      user-select: none;
+      color: $primaryColor;
+      transition: 200ms;
+      border: 1px solid transparent;
+      border-radius: 5px;
+      &:hover {
+        border: 1px solid $primaryColor;
+      }
+      &:hover input ~ .checkmark {
+        background-color: #CCCCCC;
+      }
+
+      & input:checked ~ .checkmark {
+        background-color: #2196F3;
+      }
+
+      & input:checked ~ .checkmark:after {
+        display: block;
+      }
+
+      .checkmark {
+        width: 25px;
+        height: 25px;
+        position: absolute;
+        top: 5px;
+        left: 7px;
+        border-radius: 50%;
+        background-color: #EEEEEE;
+        transition: 200ms;
+
+        &:after {
+          content: "";
+          display: none;
+          width: 8px;
+          height: 8px;
+          position: absolute;
+          top: 9px;
+          left: 9px;
+          border-radius: 50%;
+          background: white;
+        }
+      }
+
+      input {
+        position: absolute;
+        cursor: pointer;
+        opacity: 0;
+      }
+    }
+  }
+}
