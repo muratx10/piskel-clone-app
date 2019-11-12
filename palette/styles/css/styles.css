@@ -1,8 +1,8 @@
 @charset "UTF-8";
 @font-face {
   font-family: "icomoon";
-  src: url("assets/fonts/icomoon.eot?n1b2bu");
-  src: url("assets/fonts/icomoon.eot?n1b2bu#iefix") format("embedded-opentype"), url("assets/fonts/icomoon.ttf?n1b2bu") format("truetype"), url("assets/fonts/icomoon.woff?n1b2bu") format("woff"), url("assets/fonts/icomoon.svg?n1b2bu#icomoon") format("svg");
+  src: url("../../assets/fonts/icomoon.eot?n1b2bu");
+  src: url("../../assets/fonts/icomoon.eot?n1b2bu#iefix") format("embedded-opentype"), url("../../assets/fonts/icomoon.ttf?n1b2bu") format("truetype"), url("../../assets/fonts/icomoon.woff?n1b2bu") format("woff"), url("../../assets/fonts/icomoon.svg?n1b2bu#icomoon") format("svg");
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -66,7 +66,7 @@ header .appMenuBtn:hover {
   background: #757575;
 }
 header .appMenuBtn:hover .appMenuBtn__item {
-  background: #FFFFFF;
+  background: #ffffff;
 }
 header .appMenuBtn .appMenuBtn__item {
   display: block;
@@ -88,7 +88,7 @@ header .sideMenu {
   height: 100%;
   cursor: pointer;
   transition: 200ms;
-  background: url("assets/menu_icon.svg") no-repeat 50% 50%;
+  background: url("../../assets/menu_icon.svg") no-repeat 50% 50%;
 }
 header .sideMenu:hover {
   transform: rotate(90deg);
@@ -121,7 +121,7 @@ main .toolsContainer .toolsContainer__paintTools .toolsContainer__item:hover {
   background: #757575;
 }
 main .toolsContainer .toolsContainer__paintTools .toolsContainer__item:hover a, main .toolsContainer .toolsContainer__paintTools .toolsContainer__item:hover span {
-  color: #FFFFFF;
+  color: #ffffff;
 }
 main .toolsContainer .toolsContainer__paintTools a {
   display: inline-block;
@@ -175,10 +175,10 @@ main .toolsContainer .toolsContainer__colorPicker .color__item .circleColor {
   transform: translateY(5px);
 }
 main .toolsContainer .toolsContainer__colorPicker #red > span {
-  background: #FF0000;
+  background: #ff0000;
 }
 main .toolsContainer .toolsContainer__colorPicker #blue > span {
-  background: #0000FF;
+  background: #0000ff;
 }
 main .input-color-label {
   margin-left: 5px;
@@ -247,10 +247,10 @@ main .sideBar .sideBar__item:hover {
   border: 1px solid #757575;
 }
 main .sideBar .sideBar__item:hover input ~ .checkmark {
-  background-color: #CCCCCC;
+  background-color: #cccccc;
 }
 main .sideBar .sideBar__item input:checked ~ .checkmark {
-  background-color: #2196F3;
+  background-color: #2196f3;
 }
 main .sideBar .sideBar__item input:checked ~ .checkmark:after {
   display: block;
@@ -262,7 +262,7 @@ main .sideBar .sideBar__item .checkmark {
   top: 5px;
   left: 7px;
   border-radius: 50%;
-  background-color: #EEEEEE;
+  background-color: #eeeeee;
   transition: 200ms;
 }
 main .sideBar .sideBar__item .checkmark:after {

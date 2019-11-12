@@ -1,6 +1,6 @@
 $primaryColor: #757575;
 
-@import "iconFonts";
+@import 'iconFonts';
 
 body {
   margin: 0;
@@ -27,7 +27,7 @@ header {
     }
 
     &:hover .appMenuBtn__item {
-      background: #FFFFFF;
+      background: #ffffff;
     }
 
     .appMenuBtn__item {
@@ -53,7 +53,7 @@ header {
     height: 100%;
     cursor: pointer;
     transition: 200ms;
-    background: url("assets/menu_icon.svg") no-repeat 50% 50%;
+    background: url('../../assets/menu_icon.svg') no-repeat 50% 50%;
 
     &:hover {
       transform: rotate(90deg);
@@ -74,8 +74,7 @@ main {
 
     .toolsContainer__paintTools {
       height: 246px;
-      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.24),
-        0 0 4px rgba(0, 0, 0, 0.12);
+      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.24), 0 0 4px rgba(0, 0, 0, 0.12);
       border-radius: 5px;
 
       .toolsContainer__item {
@@ -91,7 +90,7 @@ main {
 
         &:hover a,
         &:hover span {
-          color: #FFFFFF;
+          color: #ffffff;
         }
       }
 
@@ -119,8 +118,7 @@ main {
 
     .toolsContainer__colorPicker {
       height: 246px;
-      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.24),
-        0 0 4px rgba(0, 0, 0, 0.12);
+      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.24), 0 0 4px rgba(0, 0, 0, 0.12);
       border-radius: 5px;
       position: relative;
 
@@ -152,16 +150,13 @@ main {
           transform: translateY(5px);
         }
       }
-      #red>span {
-        background: #FF0000;
+      #red > span {
+        background: #ff0000;
       }
-      #blue>span {
-        background: #0000FF;
+      #blue > span {
+        background: #0000ff;
       }
-
-
     }
-
   }
 
   .input-color-label {
@@ -213,13 +208,12 @@ main {
   .sideBar {
     width: 228px;
     height: 200px;
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.24),
-      0 0 4px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.24), 0 0 4px rgba(0, 0, 0, 0.12);
     border-radius: 5px;
 
     .sideBar__item {
       display: block;
-      font-family: "Roboto", Arial, sans-serif;
+      font-family: 'Roboto', Arial, sans-serif;
       font-size: 18px;
       position: relative;
       margin: 22px 5px;
@@ -238,15 +232,15 @@ main {
         border: 1px solid $primaryColor;
       }
 
-      &:hover input~.checkmark {
-        background-color: #CCCCCC;
+      &:hover input ~ .checkmark {
+        background-color: #cccccc;
       }
 
-      & input:checked~.checkmark {
-        background-color: #2196F3;
+      & input:checked ~ .checkmark {
+        background-color: #2196f3;
       }
 
-      & input:checked~.checkmark:after {
+      & input:checked ~ .checkmark:after {
         display: block;
       }
 
@@ -257,11 +251,11 @@ main {
         top: 5px;
         left: 7px;
         border-radius: 50%;
-        background-color: #EEEEEE;
+        background-color: #eeeeee;
         transition: 200ms;
 
         &:after {
-          content: "";
+          content: '';
           display: none;
           width: 8px;
           height: 8px;
@@ -283,5 +277,5 @@ main {
 }
 
 .active {
-  background: lighten(#2196F3, 35%);
+  background: lighten(#2196f3, 35%);
 }
