@@ -90,18 +90,28 @@ const Palette = {
     }
     this.elements.ctx.putImageData(imgData, coordX, coordY);
   },
-  switchTool(e) {
+  switchTool(e, toolName) {
     const elem = e.target.closest('.toolsContainer__item');
-    if (elem && this.state.activeTool !== elem.id) {
-      if (elem.id) {
-        this.state.activeTool = elem.id;
+    switch (e.type) {
+      case 'mousedown':
+        if (elem && this.state.activeTool !== elem.id) {
+          if (elem.id) {
+            this.state.activeTool = elem.id;
+            this.elements.toolsContainer.forEach((el) => {
+              el.classList.remove('active');
+            });
+            document.getElementById(elem.id)
+              .classList
+              .add('active');
+          }
+        }
+        break;
+      case 'keydown':
         this.elements.toolsContainer.forEach((el) => {
           el.classList.remove('active');
         });
-        document.getElementById(elem.id)
-          .classList
-          .add('active');
-      }
+        this.state.activeTool = toolName;
+        document.getElementById(toolName).classList.add('active');
     }
   },
   hexToRGBA(hexStr) {
@@ -188,8 +198,23 @@ const Palette = {
         this.draw(e);
       }
     });
-    window.addEventListener('mouseup', (e) => {
+    window.addEventListener('mouseup', () => {
       this.state.mousedown = false;
+    });
+    window.addEventListener('keydown', (e) => {
+      switch (e.code) {
+        case 'KeyB':
+          this.switchTool(e, 'paintBucket');
+          break;
+        case 'KeyP':
+          this.switchTool(e, 'pencil');
+          break;
+        case 'KeyC':
+          this.switchTool(e, 'colorPicker');
+          break;
+        default:
+          break;
+      }
     });
   },
 };
