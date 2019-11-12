@@ -40,6 +40,10 @@ const Palette = {
       img.addEventListener('load', () => {
         this.elements.ctx.drawImage(img, 0, 0);
       });
+    } else {
+      this.elements.ctx.rect(0, 0, 512, 512);
+      this.elements.ctx.fillStyle = '#FFFFFF';
+      this.elements.ctx.fill();
     }
   },
   inputColorPicker() {
