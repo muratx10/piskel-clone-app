@@ -151,6 +151,7 @@ const Palette = {
             break;
           case 'pencil':
             this.draw(e);
+            this.state.mousedown = true;
             break;
           default: break;
         }
@@ -174,6 +175,14 @@ const Palette = {
           break;
         default: break;
       }
+    });
+    window.addEventListener('mousemove', (e) => {
+      if (this.state.mousedown) {
+        this.draw(e);
+      }
+    });
+    window.addEventListener('mouseup', (e) => {
+      this.state.mousedown = false;
     });
   },
 };
