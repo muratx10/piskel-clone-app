@@ -27,7 +27,7 @@ header {
     }
 
     &:hover .appMenuBtn__item {
-      background: #ffffff;
+      background: #FFFFFF;
     }
 
     .appMenuBtn__item {
@@ -74,21 +74,21 @@ main {
 
     .toolsContainer__paintTools {
       height: 246px;
-      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.24), 0 0 4px rgba(0, 0, 0, 0.12);
       border-radius: 5px;
+      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.24), 0 0 4px rgba(0, 0, 0, 0.12);
 
       .toolsContainer__item {
-        margin: 22px 10px;
-        transition: 200ms;
-        border-radius: 5px;
-        padding: 5px;
-        cursor: pointer;
         position: relative;
         overflow: hidden;
-        -webkit-user-select: none;
+        margin: 22px 10px;
+        padding: 5px;
+        cursor: pointer;
         -moz-user-select: none;
         -ms-user-select: none;
+        -webkit-user-select: none;
         user-select: none;
+        transition: 200ms;
+        border-radius: 5px;
 
         &:hover {
           background: $primaryColor;
@@ -96,20 +96,22 @@ main {
 
         &:hover a,
         &:hover span {
-          color: #ffffff;
+          color: #FFFFFF;
         }
       }
+
       .toolsContainer__item:nth-child(4) {
         cursor: not-allowed;
+
         &:before {
           content: '';
           display: block;
           width: 100%;
           height: 100%;
-          background: rgba(255, 255, 255, 0.5);
           position: absolute;
           top: 0;
           left: 0;
+          background: rgba(255, 255, 255, 0.5);
         }
       }
 
@@ -137,23 +139,23 @@ main {
 
     .toolsContainer__colorPicker {
       height: 246px;
-      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.24), 0 0 4px rgba(0, 0, 0, 0.12);
-      border-radius: 5px;
       position: relative;
+      border-radius: 5px;
+      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.24), 0 0 4px rgba(0, 0, 0, 0.12);
 
       .color__item {
         display: block;
         font-family: 'Roboto', Arial, sans-serif;
         position: relative;
+        position: relative;
         margin: 20px 10px;
         padding: 4px;
-        border-radius: 5px;
-        color: $primaryColor;
         cursor: pointer;
         user-select: none;
         transition: 200ms;
+        color: $primaryColor;
         border: 1px solid transparent;
-        position: relative;
+        border-radius: 5px;
 
         &:hover {
           border: 1px solid $primaryColor;
@@ -163,17 +165,19 @@ main {
           display: inline-block;
           width: 20px;
           height: 20px;
-          border: 1px solid #000000;
-          border-radius: 50%;
           margin-right: 10px;
           transform: translateY(5px);
+          border: 1px solid #000000;
+          border-radius: 50%;
         }
       }
+
       #red > span {
-        background: #ff0000;
+        background: #FF0000;
       }
+
       #blue > span {
-        background: #0000ff;
+        background: #0000FF;
       }
     }
   }
@@ -189,46 +193,46 @@ main {
   }
 
   canvas {
-    image-rendering: pixelated;
     width: 512px;
     height: 512px;
     margin: 50px;
     border: 1px $primaryColor solid;
+    image-rendering: pixelated;
   }
 
   .input-color-container {
-    position: relative;
-    overflow: hidden;
+    display: inline-block;
     width: 20px;
     height: 20px;
+    position: relative;
+    overflow: hidden;
+    transform: translateY(5px);
     border: solid 1px #000000;
     border-radius: 40px;
-    display: inline-block;
-    transform: translateY(5px);
   }
 
   .input-color {
-    position: absolute;
-    right: -8px;
-    top: -8px;
     width: 56px;
     height: 56px;
+    position: absolute;
+    top: -8px;
+    right: -8px;
     border: none;
   }
 
   .input-color-label {
+    font-family: Roboto;
+    line-height: 20px;
     cursor: pointer;
     text-decoration: none;
-    font-family: Roboto;
     color: $primaryColor;
-    line-height: 20px;
   }
 
   .sideBar {
     width: 228px;
     height: 200px;
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.24), 0 0 4px rgba(0, 0, 0, 0.12);
     border-radius: 5px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.24), 0 0 4px rgba(0, 0, 0, 0.12);
 
     .sideBar__item {
       display: block;
@@ -242,8 +246,8 @@ main {
       -ms-user-select: none;
       -webkit-user-select: none;
       user-select: none;
-      color: $primaryColor;
       transition: 200ms;
+      color: $primaryColor;
       border: 1px solid transparent;
       border-radius: 5px;
 
@@ -252,11 +256,11 @@ main {
       }
 
       &:hover input ~ .checkmark {
-        background-color: #cccccc;
+        background-color: #CCCCCC;
       }
 
       & input:checked ~ .checkmark {
-        background-color: #2196f3;
+        background-color: #2196F3;
       }
 
       & input:checked ~ .checkmark:after {
@@ -269,9 +273,9 @@ main {
         position: absolute;
         top: 5px;
         left: 7px;
-        border-radius: 50%;
-        background-color: #eeeeee;
         transition: 200ms;
+        border-radius: 50%;
+        background-color: #EEEEEE;
 
         &:after {
           content: '';
@@ -296,5 +300,5 @@ main {
 }
 
 .active {
-  background: lighten(#2196f3, 35%);
+  background: lighten(#2196F3, 35%);
 }
