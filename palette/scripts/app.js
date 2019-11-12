@@ -22,7 +22,7 @@ const Palette = {
   init() {
     this.elements.prevColor.style.background = '#000000';
     this.colors.currentColor = this.elements.currentColor.value.toString();
-    this.state.activeTool = this.elements.pencil;
+    this.state.activeTool = this.elements.pencil.id;
     this.elements.pencil.classList.add('active');
     this.elements.canvas.width = 512;
     this.elements.canvas.height = 512;
@@ -66,13 +66,16 @@ const Palette = {
   },
   switchTool(e) {
     const elem = e.target.closest('.toolsContainer__item');
-    // if()
-    if (elem && elem.id) {
-      this.state.activeTool = elem.id;
-      this.elements.toolsContainer.forEach((el) => {
-        el.classList.remove('active');
-      });
-      document.getElementById(elem.id).classList.add('active');
+    if (elem && this.state.activeTool !== elem.id) {
+      if (elem.id) {
+        this.state.activeTool = elem.id;
+        this.elements.toolsContainer.forEach((el) => {
+          el.classList.remove('active');
+        });
+        document.getElementById(elem.id)
+          .classList
+          .add('active');
+      }
     }
   },
   hexToRGBA(hexStr) {
@@ -100,7 +103,7 @@ const Palette = {
         .replace(' ', '')
         .split(',');
       rgba.forEach((i) => {
-        if (i.length < 3) {
+        if (i < 16) {
           hex += 0;
         }
         hex += Number(i).toString(16);
