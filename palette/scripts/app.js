@@ -18,14 +18,20 @@ const Palette = {
   },
   state: {
     activeTool: null,
+    colorRGBA: [],
+    colorHEXA: '',
+  },
+  canvasParams: {
+    width: 512,
+    height: 512,
   },
   init() {
     this.elements.prevColor.style.background = '#000000';
     this.colors.currentColor = this.elements.currentColor.value.toString();
     this.state.activeTool = this.elements.pencil.id;
     this.elements.pencil.classList.add('active');
-    this.elements.canvas.width = 512;
-    this.elements.canvas.height = 512;
+    this.elements.canvas.width = this.canvasParams.width;
+    this.elements.canvas.height = this.canvasParams.height;
     this.inputColorPicker();
     this.eventListeners();
   },
@@ -39,6 +45,7 @@ const Palette = {
         pickerFlag += 1; // this flag is used to check whether color window is closed or not, because in this case FOCUS event fires twice
         if (pickerFlag > 0) {
           this.colors.currentColor = e.target.value;
+          this.state.colorRGBA = this.hexToRGBA(this.colors.currentColor);
         }
       });
     });
@@ -46,6 +53,7 @@ const Palette = {
   colorPicker(e) {
     if (e.target.id === 'canvas' && this.state.activeTool === 'colorPicker') {
       const color = this.elements.ctx.getImageData(e.offsetX, e.offsetY, 1, 1);
+      this.elements.currentColor.value = this.RGBAtoHEX(color.data);
       return this.RGBAtoHEX(color.data).toUpperCase();
     }
   },
@@ -61,8 +69,19 @@ const Palette = {
     }
     this.elements.ctx.putImageData(fillImage, 0, 0);
   },
-  draw() {
+  draw(e) {
     log('drawing...');
+    let pixelSize = this.canvasParams.width / 4;
+    let coordX = Math.trunc(e.offsetX / pixelSize ) * pixelSize;
+    let coordY = Math.trunc(e.offsetY / pixelSize ) * pixelSize;
+    let imgData = this.elements.ctx.createImageData (pixelSize, pixelSize);
+    for (let i = 0; i < imgData.data.length; i += 4) {
+      imgData.data[i] = this.state.colorRGBA[0];
+      imgData.data[i + 1] = this.state.colorRGBA[1];
+      imgData.data[i + 2] = this.state.colorRGBA[2];
+      imgData.data[i + 3] = 255;
+    }
+    this.elements.ctx.putImageData(imgData, coordX, coordY);
   },
   switchTool(e) {
     const elem = e.target.closest('.toolsContainer__item');
@@ -81,12 +100,14 @@ const Palette = {
   hexToRGBA(hexStr) {
     if(hexStr) {
       const hex = hexStr.replace('#', '');
-      return [
+      const result = [
         parseInt(hex.substr(0, 2), 16),
         parseInt(hex.substr(2, 2), 16),
         parseInt(hex.substr(4, 2), 16),
         255,
       ];
+      this.state.colorRGBA = result;
+      return result;
     }
   },
   /**
@@ -108,6 +129,7 @@ const Palette = {
         }
         hex += Number(i).toString(16);
       });
+      this.state.colorHEXA = hex;
       return hex;
     }
     const rgbStr = Array.from(RGBA);
@@ -125,10 +147,10 @@ const Palette = {
             break;
           case 'colorPicker':
             this.colors.currentColor = this.colorPicker(e);
-            log(this.colors.currentColor);
+            this.state.colorRGBA = this.hexToRGBA(this.colors.currentColor);
             break;
           case 'pencil':
-            this.draw();
+            this.draw(e);
             break;
           default: break;
         }
@@ -138,13 +160,16 @@ const Palette = {
         case 'prevColor':
           this.colors.currentColor = this.RGBAtoHEX(this.elements.prevColor.style.background);
           this.elements.currentColor.value = this.RGBAtoHEX(this.elements.prevColor.style.background);
+          this.state.colorRGBA = this.hexToRGBA(this.colors.currentColor);
           break;
         case 'red':
           this.colors.currentColor = '#FF0000';
+          this.state.colorRGBA = this.hexToRGBA(this.colors.currentColor);
           this.elements.currentColor.value = '#FF0000';
           break;
         case 'blue':
           this.colors.currentColor = '#0b00d4';
+          this.state.colorRGBA = this.hexToRGBA(this.colors.currentColor);
           this.elements.currentColor.value = '#0b00d4';
           break;
         default: break;
