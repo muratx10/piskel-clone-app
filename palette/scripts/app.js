@@ -34,6 +34,13 @@ const Palette = {
     this.elements.canvas.height = this.canvasParams.height;
     this.inputColorPicker();
     this.eventListeners();
+    if (localStorage.getItem('canvasImg')) {
+      const img = new Image();
+      img.src = localStorage.getItem('canvasImg');
+      img.addEventListener('load', () => {
+        this.elements.ctx.drawImage(img, 0, 0);
+      });
+    }
   },
   inputColorPicker() {
     this.elements.currentColor.addEventListener('change', (e) => {
@@ -188,3 +195,7 @@ const Palette = {
 };
 
 Palette.init();
+window.addEventListener('unload', () => {
+  const canvasImg = Palette.elements.canvas;
+  localStorage.setItem('canvasImg', canvasImg.toDataURL());
+});
