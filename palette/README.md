@@ -1,6 +1,3 @@
-# Piskel Clone task
+# Codejam Palette
 
-##[Task description](https://github.com/rolling-scopes-school/tasks/blob/master/tasks/stage-2/codejam-canvas/codejam-canvas.md)
-
-##[Link to deployed app](https://murat-piskel-clone-task.netlify.com)
-
+## [Task description](https://github.com/rolling-scopes-school/tasks/blob/master/tasks/stage-2/codejam-palette/codejam-palette_en.md)
