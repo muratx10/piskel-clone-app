@@ -116,12 +116,31 @@ main .toolsContainer .toolsContainer__paintTools .toolsContainer__item {
   border-radius: 5px;
   padding: 5px;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 main .toolsContainer .toolsContainer__paintTools .toolsContainer__item:hover {
   background: #757575;
 }
 main .toolsContainer .toolsContainer__paintTools .toolsContainer__item:hover a, main .toolsContainer .toolsContainer__paintTools .toolsContainer__item:hover span {
   color: #ffffff;
+}
+main .toolsContainer .toolsContainer__paintTools .toolsContainer__item:nth-child(4) {
+  cursor: not-allowed;
+}
+main .toolsContainer .toolsContainer__paintTools .toolsContainer__item:nth-child(4):before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.5);
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 main .toolsContainer .toolsContainer__paintTools a {
   display: inline-block;
