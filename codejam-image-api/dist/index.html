@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width,initial-scale=1" name="viewport">
+  <meta content="ie=edge" http-equiv="X-UA-Compatible">
+  <title>Piskel Clone</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+<link href="bundle.css" rel="stylesheet"></head>
+
+<body>
+  <header>
+    <nav class="appMenuBtn">
+      <span class="appMenuBtn__item"></span>
+      <span class="appMenuBtn__item"></span>
+      <span class="appMenuBtn__item"></span>
+    </nav>
+    <h1 class="mainTitle">CodeJam - Palette</h1>
+    <div class="sideMenu">
+
+    </div>
+  </header>
+
+  <main>
+    <div class="toolsContainer">
+      <div class="toolsContainer__paintTools">
+        <div class="toolsContainer__item" id="paintBucket">
+          <a class="icon-paint-bucket" href="#"></a>
+          <span>Paint bucket</span>
+        </div>
+        <div class="toolsContainer__item" id="colorPicker">
+          <a class="icon-color-picker" href="#"></a>
+          <span>Choose a color</span>
+        </div>
+        <div class="toolsContainer__item" id="pencil">
+          <a class="icon-pencil" href="#"></a>
+          <span>Pencil</span>
+        </div>
+        <div class="toolsContainer__item" id="transform">
+          <a class="icon-transform" href="#"></a>
+          <span>Transform</span>
+        </div>
+      </div>
+      <div class="toolsContainer__colorPicker">
+        <span class="color__item">
+          <div class="input-color-container">
+            <input class="input-color" id="input-color" type="color" value="#000000">
+          </div>
+          <label class="input-color-label" for="input-color">
+            Current color
+          </label>
+        </span>
+        <div class="color__item" id="prevColor"><span class="circleColor"></span>Prev
+          color
+        </div>
+        <div class="color__item" id="red"><span class="circleColor"></span>red
+        </div>
+        <div class="color__item" id="blue"><span class="circleColor"></span>blue
+        </div>
+      </div>
+    </div>
+    <div class="canvasSection">
+      <canvas id="canvas"></canvas>
+    </div>
+    <div class="sideBar">
+      <div class="sideBar__radioBtns">
+        <label class="sideBar__item">4x4
+          <input checked="checked" class="input-radio" name="radio" type="radio" value="4">
+          <span class="checkmark"></span>
+        </label>
+        <label class="sideBar__item">32x32
+          <input class="input-radio" name="radio" type="radio" value="32">
+          <span class="checkmark"></span>
+        </label>
+        <label class="sideBar__item">256x256
+          <input class="input-radio" name="radio" type="radio" value="256">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+    </div>
+  </main>
+<script type="text/javascript" src="bundle.js"></script></body>
+
+</html>

@@ -1,21 +1,11 @@
 {
-  "env": {
-    "browser": true,
-    "es6": true
-  },
   "extends": "airbnb-base",
   "parser": "babel-eslint",
-  "parserOptions": {
-    "ecmaVersion": 2018,
-    "SharedArrayBuffer": "readonly"
-  },
   "globals": {
     "window": true,
     "document": true,
     "console": false,
     "NodeList": true,
-    "localStorage": true,
-    "Atomics": "readonly",
-    "sourceType": "readonly"
+    "localStorage": true
   }
 }

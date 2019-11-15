@@ -1,3 +1,5 @@
+import '../styles/styles.scss';
+
 /* eslint-disable prefer-destructuring */
 const Palette = {
   elements: {
@@ -8,7 +10,8 @@ const Palette = {
     currentColor: document.getElementById('input-color'),
     prevColor: document.querySelector('#prevColor .circleColor'),
     canvas: document.getElementById('canvas'),
-    ctx: document.getElementById('canvas').getContext('2d'),
+    ctx: document.getElementById('canvas')
+      .getContext('2d'),
   },
   colors: {
     currentColor: '#FF8F00',
@@ -24,6 +27,7 @@ const Palette = {
   canvasParams: {
     width: 512,
     height: 512,
+    resolution: 4,
   },
   init() {
     this.elements.prevColor.style.background = '#000000';
@@ -35,6 +39,7 @@ const Palette = {
     this.inputColorPicker();
     this.eventListeners();
     if (localStorage.getItem('canvasImg')) {
+      // eslint-disable-next-line no-undef
       const img = new Image();
       img.src = localStorage.getItem('canvasImg');
       img.addEventListener('load', () => {
@@ -70,7 +75,8 @@ const Palette = {
     if (e.target.id === 'canvas' && this.state.activeTool === 'colorPicker') {
       this.elements.currentColor.value = this.RGBAtoHEX(color.data);
     }
-    return this.RGBAtoHEX(color.data).toUpperCase();
+    return this.RGBAtoHEX(color.data)
+      .toUpperCase();
   },
   fillBucket() {
     const fillImage = this.elements.ctx.createImageData(
@@ -88,7 +94,7 @@ const Palette = {
     this.elements.ctx.putImageData(fillImage, 0, 0);
   },
   draw(e) {
-    const pixelSize = this.canvasParams.width / 4;
+    const pixelSize = this.canvasParams.width / this.canvasParams.resolution;
     const coordsX = Math.trunc(e.offsetX / pixelSize) * pixelSize;
     const coordsY = Math.trunc(e.offsetY / pixelSize) * pixelSize;
     const imgData = this.elements.ctx.createImageData(pixelSize, pixelSize);
@@ -100,6 +106,9 @@ const Palette = {
     }
     this.elements.ctx.putImageData(imgData, coordsX, coordsY);
   },
+  scaleCanvas() {
+
+  },
   switchTool(e, toolName) {
     const elem = e.target.closest('.toolsContainer__item');
     switch (e.type) {
@@ -110,7 +119,9 @@ const Palette = {
             this.elements.toolsContainer.forEach((el) => {
               el.classList.remove('active');
             });
-            document.getElementById(elem.id).classList.add('active');
+            document.getElementById(elem.id)
+              .classList
+              .add('active');
           }
         }
         break;
@@ -119,9 +130,12 @@ const Palette = {
           el.classList.remove('active');
         });
         this.state.activeTool = toolName;
-        document.getElementById(toolName).classList.add('active');
+        document.getElementById(toolName)
+          .classList
+          .add('active');
         break;
-      default: break;
+      default:
+        break;
     }
   },
   hexToRGBA(hexStr) {
@@ -154,7 +168,8 @@ const Palette = {
         if (i < 16) {
           hex += 0;
         }
-        hex += Number(i).toString(16);
+        hex += Number(i)
+          .toString(16);
       });
       this.state.colorHEX = hex;
       return hex;
@@ -168,6 +183,13 @@ const Palette = {
     window.addEventListener('mousedown', (e) => {
       const canvasElem = e.target.tagName === 'CANVAS';
       this.switchTool(e);
+      if (e.target.classList.contains('sideBar__item')) {
+        this.canvasParams.resolution = e.target.children[0].value;
+      } else if (e.target.classList.contains('checkmark')) {
+        this.canvasParams.resolution = e.target.previousSibling.previousSibling.value;
+      } else if (e.target.classList.contains('input-radio')) {
+        this.canvasParams.resolution = e.target.value;
+      }
       if (canvasElem) {
         switch (this.state.activeTool) {
           case 'paintBucket':
