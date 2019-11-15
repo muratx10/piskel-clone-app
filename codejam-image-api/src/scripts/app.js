@@ -10,8 +10,10 @@ const Palette = {
     currentColor: document.getElementById('input-color'),
     prevColor: document.querySelector('#prevColor .circleColor'),
     canvas: document.getElementById('canvas'),
-    ctx: document.getElementById('canvas')
-      .getContext('2d'),
+    ctx: document.getElementById('canvas').getContext('2d'),
+    searchForm: document.getElementById('searchForm'),
+    searchInput: document.querySelector('.form-control'),
+    selectedCity: document.querySelector('.selectedCity'),
   },
   colors: {
     currentColor: '#FF8F00',
@@ -254,6 +256,12 @@ const Palette = {
         default:
           break;
       }
+    });
+    this.elements.searchForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      console.log(this.elements.searchInput.value);
+      this.elements.selectedCity.textContent = this.elements.searchInput.value;
+      this.elements.searchForm.reset();
     });
   },
 };

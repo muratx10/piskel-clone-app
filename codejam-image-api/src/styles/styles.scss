@@ -1,9 +1,19 @@
 $primaryColor: #757575;
+$primaryBgColor: #18a2b8;
 
 @import "iconFonts";
 
 body {
   margin: 0;
+}
+
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus,
+.btn.focus,
+.btn:active.focus,
+.btn.active.focus {
+  outline: none;
 }
 
 header {
@@ -91,7 +101,7 @@ main {
         border-radius: 5px;
 
         &:hover {
-          background: $primaryColor;
+          background: $primaryBgColor;
         }
 
         &:hover a,
@@ -190,12 +200,53 @@ main {
     justify-self: center;
     width: available;
     min-width: 600px;
+
+    .canvasSection__search {
+      width: 85%;
+      display: grid;
+      grid: 1fr / 4fr 1fr;
+
+      .btn-info,
+      .btn-info:active,
+      .btn-info:focus,
+      .form-control:focus,
+      .form-control:active {
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        outline: none;
+      }
+    }
+
+    .selectedCity {
+      width: 85%;
+      background: $primaryBgColor;
+      color: #ffffff;
+      text-transform: uppercase;
+      font-weight: bold;
+      text-align: center;
+      font-size: 20px;
+      height: 35px;
+      line-height: 35px;
+      margin-top: 15px;
+      border-radius: 5px;
+      margin-right: 5px;
+    }
+  }
+
+  .input-group {
+    width: 95%;
+    .input-group-prepend {
+      margin-left: 20px;
+    }
+    .input-group-text {
+      width: 40px;
+    }
   }
 
   canvas {
     width: 512px;
     height: 512px;
-    margin: 50px;
+    margin: 10px auto;
     border: 1px $primaryColor solid;
     image-rendering: pixelated;
   }
@@ -260,7 +311,7 @@ main {
       }
 
       & input:checked ~ .checkmark {
-        background-color: #2196f3;
+        background-color: $primaryBgColor;
       }
 
       & input:checked ~ .checkmark:after {
@@ -300,5 +351,5 @@ main {
 }
 
 .active {
-  background: lighten(#2196f3, 35%);
+  background: lighten($primaryBgColor, 50%);
 }

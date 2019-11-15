@@ -9,7 +9,6 @@ const conf = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
   },
-  devtool: 'source-map',
   devServer: {
     watchContentBase: true,
     overlay: true,
@@ -21,7 +20,7 @@ const conf = {
         use: {
           loader: 'html-loader',
           options: {
-            minimize: false,
+            minimize: true,
           },
         },
       },
@@ -33,6 +32,9 @@ const conf = {
           },
           {
             loader: 'css-loader',
+            options: {
+              sourceMap: true,
+            },
           },
           {
             loader: 'postcss-loader',
@@ -77,7 +79,14 @@ const conf = {
     }),
     new HtmlWebpackPlugin({
       template: 'src/index.html',
-      minify: true,
+      minify: {
+        collapseWhitespace: true,
+        removeComments: true,
+        removeRedundantAttributes: true,
+        removeScriptTypeAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        useShortDoctype: true,
+      },
     }),
   ],
 
@@ -86,6 +95,6 @@ const conf = {
 module.exports = (env, options) => {
   conf.devtool = options.mode === 'production'
     ? false
-    : 'cheap-module-eval-source-map';
+    : 'eval-source-map';
   return conf;
 };
