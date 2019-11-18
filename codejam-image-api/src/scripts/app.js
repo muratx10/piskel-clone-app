@@ -14,7 +14,8 @@ const Palette = {
     currentColor: document.getElementById('input-color'),
     prevColor: document.querySelector('#prevColor .circleColor'),
     canvas: document.getElementById('canvas'),
-    ctx: document.getElementById('canvas').getContext('2d'),
+    ctx: document.getElementById('canvas')
+      .getContext('2d'),
     searchForm: document.getElementById('searchForm'),
     searchInput: document.querySelector('.form-control'),
     selectedCity: document.querySelector('.selectedCity'),
@@ -29,11 +30,11 @@ const Palette = {
     activeTool: null,
     colorRGBA: [],
     colorHEX: '',
-    pencilRes: '128',
+    pencilRes: 128,
   },
   canvasParams: {
-    width: 128,
-    height: 128,
+    width: 512,
+    height: 512,
     resolution: 128,
   },
   init() {
@@ -50,7 +51,8 @@ const Palette = {
       const img = new Image();
       img.src = localStorage.getItem('canvasImg');
       img.addEventListener('load', () => {
-        this.elements.ctx.drawImage(img, 0, 0);
+        this.elements.ctx.imageSmoothingEnabled = false;
+        this.drawImg(img.src);
       });
     } else {
       this.elements.ctx.rect(0, 0, 512, 512);
@@ -100,10 +102,10 @@ const Palette = {
     }
     this.elements.ctx.putImageData(fillImage, 0, 0);
   },
-  draw(e) {
-    const pixelSize = 512 / this.state.pencilRes;
-    const coordsX = Math.trunc(e.offsetX / pixelSize) * pixelSize;
-    const coordsY = Math.trunc(e.offsetY / pixelSize) * pixelSize;
+  drawPencil(e) {
+    const pixelSize = 512 / this.elements.canvas.width;
+    const coordsX = Math.trunc(e.offsetX / pixelSize);
+    const coordsY = Math.trunc(e.offsetY / pixelSize);
     const imgData = this.elements.ctx.createImageData(pixelSize, pixelSize);
     for (let i = 0; i < imgData.data.length; i += 4) {
       imgData.data[i] = this.state.colorRGBA[0];
@@ -111,28 +113,43 @@ const Palette = {
       imgData.data[i + 2] = this.state.colorRGBA[2];
       imgData.data[i + 3] = 255;
     }
-    this.elements.ctx.putImageData(imgData, coordsX, coordsY);
+    this.elements.ctx.putImageData(imgData, coordsX - (pixelSize / 2), coordsY - (pixelSize / 2));
   },
   drawImg(data) {
     // eslint-disable-next-line no-undef
-    this.elements.ctx.clearRect(0, 0, this.canvasParams.resolution, this.canvasParams.resolution);
+    this.elements.ctx.clearRect(0, 0, this.elements.canvas.width, this.elements.canvas.height);
     const img = new Image();
     img.crossOrigin = 'Anonymous';
     img.src = data;
     img.onload = () => {
       if (img.width > img.height) {
-        const dWidth = this.canvasParams.width;
-        const dHeight = (this.canvasParams.width / img.width) * img.height;
-        this.elements.ctx.drawImage(img, 0, (this.canvasParams.height - dHeight) / 2, dWidth, dHeight);
+        const dWidth = this.elements.canvas.width;
+        const dHeight = (dWidth / img.width) * img.height;
+        this.elements.ctx.drawImage(img, 0, (this.elements.canvas.height - dHeight) / 2, dWidth, dHeight);
       } else if (img.height > img.width) {
-        const dWidth = (this.canvasParams.width / img.height) * img.width;
-        const dHeight = this.canvasParams.height;
-        this.elements.ctx.drawImage(img, (this.canvasParams.width - dWidth) / 2, 0, dWidth, dHeight);
+        const dWidth = (this.elements.canvas.width / img.height) * img.width;
+        const dHeight = this.elements.canvas.height;
+        this.elements.ctx.drawImage(img, (this.elements.canvas.width - dWidth) / 2, 0, dWidth, dHeight);
       } else {
-        this.elements.ctx.drawImage(img, 0, 0, this.canvasParams.width, this.canvasParams.height);
-        this.elements.ctx.drawImage(img, 0, 0);
+        this.elements.ctx.drawImage(img, 0, 0, this.elements.canvas.width, this.elements.canvas.height);
       }
     };
+  },
+  grayscale() {
+    if (localStorage.getItem('img')) {
+      // eslint-disable-next-line max-len
+      const imageData = this.elements.ctx.getImageData(0, 0, this.elements.canvas.width, this.elements.canvas.height);
+      const data = imageData.data;
+      for (let i = 0; i < data.length; i += 4) {
+        const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+        data[i] = avg; // red
+        data[i + 1] = avg; // green
+        data[i + 2] = avg; // blue
+      }
+      this.elements.ctx.putImageData(imageData, 0, 0);
+    } else if (localStorage.getItem('img')) {
+      alert('There is no image to grayscale');
+    }
   },
   switchTool(e, toolName) {
     const elem = e.target.closest('.toolsContainer__item');
@@ -210,19 +227,31 @@ const Palette = {
       this.switchTool(e);
       if (e.target.classList.contains('sideBar__item')) {
         this.canvasParams.resolution = e.target.children[0].value;
-        this.canvasParams.width = this.canvasParams.resolution;
-        this.canvasParams.height = this.canvasParams.resolution;
-        this.state.pencilRes = this.canvasParams.resolution;
+        this.elements.canvas.width = this.canvasParams.resolution;
+        this.elements.canvas.height = this.canvasParams.resolution;
+        if (localStorage.getItem('img')) {
+          this.drawImg(localStorage.getItem('img'));
+        } else if (localStorage.getItem('canvasImg')) {
+          this.drawImg(localStorage.getItem('canvasImg'));
+        }
       } else if (e.target.classList.contains('checkmark')) {
         this.canvasParams.resolution = e.target.previousSibling.previousSibling.value;
-        this.canvasParams.width = this.canvasParams.resolution;
-        this.canvasParams.height = this.canvasParams.resolution;
-        this.state.pencilRes = this.canvasParams.resolution;
+        this.elements.canvas.width = this.canvasParams.resolution;
+        this.elements.canvas.height = this.canvasParams.resolution;
+        if (localStorage.getItem('img')) {
+          this.drawImg(localStorage.getItem('img'));
+        } else if (localStorage.getItem('canvasImg')) {
+          this.drawImg(localStorage.getItem('canvasImg'));
+        }
       } else if (e.target.classList.contains('input-radio')) {
         this.canvasParams.resolution = e.target.value;
-        this.canvasParams.width = this.canvasParams.resolution;
-        this.canvasParams.height = this.canvasParams.resolution;
-        this.state.pencilRes = this.canvasParams.resolution;
+        this.elements.canvas.width = this.canvasParams.resolution;
+        this.elements.canvas.height = this.canvasParams.resolution;
+        if (localStorage.getItem('img')) {
+          this.drawImg(localStorage.getItem('img'));
+        } else if (localStorage.getItem('canvasImg')) {
+          this.drawImg(localStorage.getItem('canvasImg'));
+        }
       }
       if (canvasElem) {
         switch (this.state.activeTool) {
@@ -232,9 +261,10 @@ const Palette = {
           case 'colorPicker':
             this.colors.currentColor = this.colorPicker(e);
             this.state.colorRGBA = this.hexToRGBA(this.colors.currentColor);
+            console.log(this.state);
             break;
           case 'pencil':
-            this.draw(e);
+            this.drawPencil(e);
             this.state.mousedown = true;
             break;
           default:
@@ -262,13 +292,16 @@ const Palette = {
           this.state.colorRGBA = this.hexToRGBA(this.colors.currentColor);
           this.elements.currentColor.value = '#0b00d4';
           break;
+        case 'grayscale':
+          this.grayscale();
+          break;
         default:
           break;
       }
     });
     window.addEventListener('mousemove', (e) => {
       if (this.state.mousedown) {
-        this.draw(e);
+        this.drawPencil(e);
       }
     });
     window.addEventListener('mouseup', () => {
@@ -292,7 +325,7 @@ const Palette = {
     this.elements.searchForm.addEventListener('submit', (e) => {
       e.preventDefault();
       this.state.currentSearchText = this.elements.searchInput.value;
-      console.log(this.canvasParams.width, this.canvasParams.height);
+      console.log(this.elements.canvas.width, this.elements.canvas.height);
       getCity(this.state.currentSearchText)
         .then(response => {
           localStorage.setItem('img', response.urls.small);
@@ -310,7 +343,8 @@ const Palette = {
 };
 
 Palette.init();
-window.addEventListener('unload', () => {
+window.addEventListener('beforeunload', () => {
   const canvasImg = Palette.elements.canvas;
   localStorage.setItem('canvasImg', canvasImg.toDataURL());
+  localStorage.removeItem('img');
 });

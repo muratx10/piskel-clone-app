@@ -217,6 +217,10 @@ main {
         box-shadow: none;
         outline: none;
       }
+      .form-control::placeholder {
+        font-size: 12px;
+        font-style: italic;
+      }
     }
 
     .selectedCity {
@@ -258,7 +262,7 @@ main {
     height: 56px;
     position: absolute;
     top: -8px;
-    right: -8px;
+    right: -15px;
     border: none;
   }
 
