@@ -1,10 +1,9 @@
 /* eslint-disable no-undef */
-/* eslint-disable no-console */
 /* eslint-disable arrow-parens */
+/* eslint-disable prefer-destructuring */
 import { getCity } from './fetch';
 import '../styles/styles.scss';
 
-/* eslint-disable prefer-destructuring */
 const Palette = {
   elements: {
     toolsContainer: document.querySelectorAll('.toolsContainer__item'),
@@ -38,17 +37,27 @@ const Palette = {
     resolution: 512,
   },
   init() {
-    // this.elements.ctx.imageSmoothingEnabled = false;
-    // if(localStorage.getItem('colors')) {
-    //  const colors = JSON.parse(localStorage.getItem('colors'));
-    //   {this.colors} = 
-    // } else {
-    //   this.elements.prevColor.style.background = '#000000';
-    //   this.colors.currentColor = this.elements.currentColor.value.toString();
-    // }
-    this.state.activeTool = this.elements.pencil.id;
-    this.elements.pencil.classList.add('active');
-
+    this.elements.ctx.imageSmoothingEnabled = false;
+    if (localStorage.getItem('canvasParams')) {
+      const canvasParams = JSON.stringify(localStorage.getItem('canvasParams'));
+      this.canvasParams = Object.assign(this.canvasParams, canvasParams);
+    }
+    if (localStorage.getItem('colors')) {
+      const colors = JSON.parse(localStorage.getItem('colors'));
+      this.colors = Object.assign(this.colors, colors);
+    } else {
+      this.elements.prevColor.style.background = '#000000';
+      this.colors.currentColor = this.elements.currentColor.value.toString();
+    }
+    if (localStorage.getItem('state')) {
+      const state = JSON.parse(localStorage.getItem('state'));
+      this.state = Object.assign(this.state, state);
+      const active = document.getElementById(`${this.state.activeTool}`);
+      active.classList.add('active');
+    } else {
+      this.state.activeTool = this.elements.pencil.id;
+      this.elements.pencil.classList.add('active');
+    }
     this.elements.canvas.width = this.canvasParams.width;
     this.elements.canvas.height = this.canvasParams.height;
 
@@ -57,6 +66,7 @@ const Palette = {
     if (localStorage.getItem('canvasImg')) {
       // eslint-disable-next-line no-undef
       const img = new Image();
+      img.crossOrigin = 'Anonymous';
       img.src = localStorage.getItem('canvasImg');
       img.addEventListener('load', () => {
         this.drawImg(img.src);
@@ -65,6 +75,10 @@ const Palette = {
       this.elements.ctx.rect(0, 0, 512, 512);
       this.elements.ctx.fillStyle = '#FFFFFF';
       this.elements.ctx.fill();
+    }
+    if ((localStorage.getItem('grayscale')) === 'true') {
+      document.getElementById('grayscale').setAttribute('disabled', 'true');
+      document.getElementById('grayscale').style.cursor = 'not-allowed';
     }
   },
   inputColorPicker() {
@@ -81,7 +95,7 @@ const Palette = {
         pickerFlag += 1;
         if (pickerFlag > 0) {
           this.colors.currentColor = e.target.value;
-          this.state.colorRGBA = this.hexToRGBA(this.colors.currentColor);
+          this.state.colorRGBA = this.hexToRGBA(e.target.value);
         }
       });
     });
@@ -96,6 +110,7 @@ const Palette = {
   },
   fillBucket() {
     this.elements.grayscaleBtn.removeAttribute('disabled');
+    this.elements.grayscaleBtn.style.cursor = 'pointer';
     const fillImage = this.elements.ctx.createImageData(
       this.elements.canvas.width,
       this.elements.canvas.height,
@@ -112,6 +127,7 @@ const Palette = {
   },
   drawPencil(e) {
     this.elements.grayscaleBtn.removeAttribute('disabled');
+    this.elements.grayscaleBtn.style.cursor = 'pointer';
     let size = 1;
     switch (this.elements.canvas.width) {
       case 512:
@@ -136,26 +152,34 @@ const Palette = {
       imgData.data[i + 3] = 255;
     }
     this.elements.ctx.putImageData(imgData, coordsX, coordsY);
+    localStorage.setItem('canvasSnapshot', this.elements.canvas.toDataURL());
   },
   drawImg(data) {
     // eslint-disable-next-line no-undef
-    this.elements.grayscaleBtn.removeAttribute('disabled');
+    if ((localStorage.getItem('grayscale')) === 'true') {
+      document.getElementById('grayscale').setAttribute('disabled', 'true');
+      document.getElementById('grayscale').style.cursor = 'not-allowed';
+    } else {
+      this.elements.grayscaleBtn.removeAttribute('disabled');
+      this.elements.grayscaleBtn.style.cursor = 'pointer';
+    }
     this.elements.ctx.clearRect(0, 0, this.elements.canvas.width, this.elements.canvas.height);
     const img = new Image();
     img.crossOrigin = 'Anonymous';
     img.src = data;
     img.onload = () => {
       if (img.width > img.height) {
-        const dWidth = this.elements.canvas.width;
-        const dHeight = (dWidth / img.width) * img.height;
-        this.elements.ctx.drawImage(img, 0, (this.elements.canvas.height - dHeight) / 2, dWidth, dHeight);
+        const dW = this.elements.canvas.width; // dirty width
+        const dH = (dW / img.width) * img.height; // dirty height
+        this.elements.ctx.drawImage(img, 0, (this.elements.canvas.height - dH) / 2, dW, dH);
       } else if (img.height > img.width) {
-        const dWidth = (this.elements.canvas.width / img.height) * img.width;
-        const dHeight = this.elements.canvas.height;
-        this.elements.ctx.drawImage(img, (this.elements.canvas.width - dWidth) / 2, 0, dWidth, dHeight);
+        const dW = (this.elements.canvas.width / img.height) * img.width; // dirty width
+        const dH = this.elements.canvas.height; // dirty height
+        this.elements.ctx.drawImage(img, (this.elements.canvas.width - dW) / 2, 0, dW, dH);
       } else {
         this.elements.ctx.drawImage(img, 0, 0, this.elements.canvas.width, this.elements.canvas.height);
       }
+      localStorage.setItem('canvasSnapshot', this.elements.canvas.toDataURL());
     };
   },
   grayscale() {
@@ -250,10 +274,13 @@ const Palette = {
         this.elements.canvas.height = this.canvasParams.resolution;
         this.canvasParams.width = this.canvasParams.resolution;
         this.canvasParams.height = this.canvasParams.resolution;
-        if (localStorage.getItem('img')) {
-          this.drawImg(localStorage.getItem('img'));
-        } else if (localStorage.getItem('canvasImg')) {
-          this.drawImg(localStorage.getItem('canvasImg'));
+        // if (localStorage.getItem('img')) {
+        //   this.drawImg(localStorage.getItem('img'));
+        // } else if (localStorage.getItem('canvasImg')) {
+        //   this.drawImg(localStorage.getItem('canvasImg'));
+        // }
+        if (localStorage.getItem('canvasSnapshot')) {
+          this.drawImg(localStorage.getItem('canvasSnapshot'));
         }
       }
       if (canvasElem) {
@@ -264,7 +291,6 @@ const Palette = {
           case 'colorPicker':
             this.colors.currentColor = this.colorPicker(e);
             this.state.colorRGBA = this.hexToRGBA(this.colors.currentColor);
-            console.log(this.state);
             break;
           case 'pencil':
             this.drawPencil(e);
@@ -299,6 +325,7 @@ const Palette = {
           if (localStorage.getItem('img')) {
             this.grayscale();
             this.elements.grayscaleBtn.setAttribute('disabled', 'true');
+            this.elements.grayscaleBtn.style.cursor = 'not-allowed';
           } else if (!localStorage.getItem('img')) {
             // eslint-disable-next-line no-alert
             alert('There is no image to grayscale');
@@ -334,7 +361,6 @@ const Palette = {
     this.elements.searchForm.addEventListener('submit', (e) => {
       e.preventDefault();
       this.state.currentSearchText = this.elements.searchInput.value;
-      console.log(this.elements.canvas.width, this.elements.canvas.height);
       getCity(this.state.currentSearchText)
         .then(response => {
           localStorage.setItem('img', response.urls.small);
@@ -344,8 +370,7 @@ const Palette = {
           } else {
             this.elements.selectedCity.textContent = response.alt_description;
           }
-        })
-        .catch(error => console.log(error));
+        });
       this.elements.searchForm.reset();
     });
   },
@@ -354,6 +379,7 @@ const Palette = {
 Palette.init();
 window.addEventListener('beforeunload', () => {
   const canvasImg = Palette.elements.canvas;
+  const grayscale = Palette.elements.grayscaleBtn.getAttribute('disabled');
   localStorage.setItem('canvasImg', canvasImg.toDataURL());
   localStorage.removeItem('img');
   const state = {
@@ -362,9 +388,9 @@ window.addEventListener('beforeunload', () => {
     colorHEX: Palette.state.colorHEX,
   };
   const canvasParams = {
-    width: Palette.canvasParams.width,
-    height: Palette.canvasParams.height,
-    resolution: Palette.canvasParams.resolution,
+    width: Palette.elements.canvas.width,
+    height: Palette.elements.canvas.height,
+    resolution: Palette.elements.canvas.width,
   };
   const colors = {
     currentColor: Palette.colors.currentColor,
@@ -375,4 +401,5 @@ window.addEventListener('beforeunload', () => {
   localStorage.setItem('state', JSON.stringify(state));
   localStorage.setItem('canvasParams', JSON.stringify(canvasParams));
   localStorage.setItem('colors', JSON.stringify(colors));
+  localStorage.setItem('grayscale', grayscale);
 });
