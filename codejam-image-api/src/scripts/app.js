@@ -19,6 +19,7 @@ const Palette = {
     searchForm: document.getElementById('searchForm'),
     searchInput: document.querySelector('.form-control'),
     selectedCity: document.querySelector('.selectedCity'),
+    grayscaleBtn: document.getElementById('grayscale'),
   },
   colors: {
     currentColor: '#FF8F00',
@@ -30,20 +31,27 @@ const Palette = {
     activeTool: null,
     colorRGBA: [],
     colorHEX: '',
-    pencilRes: 128,
   },
   canvasParams: {
     width: 512,
     height: 512,
-    resolution: 128,
+    resolution: 512,
   },
   init() {
-    this.elements.prevColor.style.background = '#000000';
-    this.colors.currentColor = this.elements.currentColor.value.toString();
+    // this.elements.ctx.imageSmoothingEnabled = false;
+    // if(localStorage.getItem('colors')) {
+    //  const colors = JSON.parse(localStorage.getItem('colors'));
+    //   {this.colors} = 
+    // } else {
+    //   this.elements.prevColor.style.background = '#000000';
+    //   this.colors.currentColor = this.elements.currentColor.value.toString();
+    // }
     this.state.activeTool = this.elements.pencil.id;
     this.elements.pencil.classList.add('active');
+
     this.elements.canvas.width = this.canvasParams.width;
     this.elements.canvas.height = this.canvasParams.height;
+
     this.inputColorPicker();
     this.eventListeners();
     if (localStorage.getItem('canvasImg')) {
@@ -51,7 +59,6 @@ const Palette = {
       const img = new Image();
       img.src = localStorage.getItem('canvasImg');
       img.addEventListener('load', () => {
-        this.elements.ctx.imageSmoothingEnabled = false;
         this.drawImg(img.src);
       });
     } else {
@@ -88,6 +95,7 @@ const Palette = {
       .toUpperCase();
   },
   fillBucket() {
+    this.elements.grayscaleBtn.removeAttribute('disabled');
     const fillImage = this.elements.ctx.createImageData(
       this.elements.canvas.width,
       this.elements.canvas.height,
@@ -103,20 +111,35 @@ const Palette = {
     this.elements.ctx.putImageData(fillImage, 0, 0);
   },
   drawPencil(e) {
-    const pixelSize = 512 / this.elements.canvas.width;
-    const coordsX = Math.trunc(e.offsetX / pixelSize);
-    const coordsY = Math.trunc(e.offsetY / pixelSize);
-    const imgData = this.elements.ctx.createImageData(pixelSize, pixelSize);
+    this.elements.grayscaleBtn.removeAttribute('disabled');
+    let size = 1;
+    switch (this.elements.canvas.width) {
+      case 512:
+        size = 1;
+        break;
+      case 256:
+        size = 2;
+        break;
+      case 128:
+        size = 4;
+        break;
+      default:
+        break;
+    }
+    const coordsX = Math.trunc(e.offsetX) / size;
+    const coordsY = Math.trunc(e.offsetY) / size;
+    const imgData = this.elements.ctx.createImageData(1, 1);
     for (let i = 0; i < imgData.data.length; i += 4) {
       imgData.data[i] = this.state.colorRGBA[0];
       imgData.data[i + 1] = this.state.colorRGBA[1];
       imgData.data[i + 2] = this.state.colorRGBA[2];
       imgData.data[i + 3] = 255;
     }
-    this.elements.ctx.putImageData(imgData, coordsX - (pixelSize / 2), coordsY - (pixelSize / 2));
+    this.elements.ctx.putImageData(imgData, coordsX, coordsY);
   },
   drawImg(data) {
     // eslint-disable-next-line no-undef
+    this.elements.grayscaleBtn.removeAttribute('disabled');
     this.elements.ctx.clearRect(0, 0, this.elements.canvas.width, this.elements.canvas.height);
     const img = new Image();
     img.crossOrigin = 'Anonymous';
@@ -136,20 +159,16 @@ const Palette = {
     };
   },
   grayscale() {
-    if (localStorage.getItem('img')) {
-      // eslint-disable-next-line max-len
-      const imageData = this.elements.ctx.getImageData(0, 0, this.elements.canvas.width, this.elements.canvas.height);
-      const data = imageData.data;
-      for (let i = 0; i < data.length; i += 4) {
-        const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
-        data[i] = avg; // red
-        data[i + 1] = avg; // green
-        data[i + 2] = avg; // blue
-      }
-      this.elements.ctx.putImageData(imageData, 0, 0);
-    } else if (localStorage.getItem('img')) {
-      alert('There is no image to grayscale');
+    // eslint-disable-next-line max-len
+    const imageData = this.elements.ctx.getImageData(0, 0, this.elements.canvas.width, this.elements.canvas.height);
+    const data = imageData.data;
+    for (let i = 0; i < data.length; i += 4) {
+      const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+      data[i] = avg; // red
+      data[i + 1] = avg; // green
+      data[i + 2] = avg; // blue
     }
+    this.elements.ctx.putImageData(imageData, 0, 0);
   },
   switchTool(e, toolName) {
     const elem = e.target.closest('.toolsContainer__item');
@@ -229,24 +248,8 @@ const Palette = {
         this.canvasParams.resolution = e.target.children[0].value;
         this.elements.canvas.width = this.canvasParams.resolution;
         this.elements.canvas.height = this.canvasParams.resolution;
-        if (localStorage.getItem('img')) {
-          this.drawImg(localStorage.getItem('img'));
-        } else if (localStorage.getItem('canvasImg')) {
-          this.drawImg(localStorage.getItem('canvasImg'));
-        }
-      } else if (e.target.classList.contains('checkmark')) {
-        this.canvasParams.resolution = e.target.previousSibling.previousSibling.value;
-        this.elements.canvas.width = this.canvasParams.resolution;
-        this.elements.canvas.height = this.canvasParams.resolution;
-        if (localStorage.getItem('img')) {
-          this.drawImg(localStorage.getItem('img'));
-        } else if (localStorage.getItem('canvasImg')) {
-          this.drawImg(localStorage.getItem('canvasImg'));
-        }
-      } else if (e.target.classList.contains('input-radio')) {
-        this.canvasParams.resolution = e.target.value;
-        this.elements.canvas.width = this.canvasParams.resolution;
-        this.elements.canvas.height = this.canvasParams.resolution;
+        this.canvasParams.width = this.canvasParams.resolution;
+        this.canvasParams.height = this.canvasParams.resolution;
         if (localStorage.getItem('img')) {
           this.drawImg(localStorage.getItem('img'));
         } else if (localStorage.getItem('canvasImg')) {
@@ -293,7 +296,13 @@ const Palette = {
           this.elements.currentColor.value = '#0b00d4';
           break;
         case 'grayscale':
-          this.grayscale();
+          if (localStorage.getItem('img')) {
+            this.grayscale();
+            this.elements.grayscaleBtn.setAttribute('disabled', 'true');
+          } else if (!localStorage.getItem('img')) {
+            // eslint-disable-next-line no-alert
+            alert('There is no image to grayscale');
+          }
           break;
         default:
           break;
@@ -347,4 +356,23 @@ window.addEventListener('beforeunload', () => {
   const canvasImg = Palette.elements.canvas;
   localStorage.setItem('canvasImg', canvasImg.toDataURL());
   localStorage.removeItem('img');
+  const state = {
+    activeTool: Palette.state.activeTool,
+    colorRGBA: Palette.state.colorRGBA,
+    colorHEX: Palette.state.colorHEX,
+  };
+  const canvasParams = {
+    width: Palette.canvasParams.width,
+    height: Palette.canvasParams.height,
+    resolution: Palette.canvasParams.resolution,
+  };
+  const colors = {
+    currentColor: Palette.colors.currentColor,
+    prevColor: Palette.colors.prevColor,
+    red: Palette.colors.red,
+    blue: Palette.colors.blue,
+  };
+  localStorage.setItem('state', JSON.stringify(state));
+  localStorage.setItem('canvasParams', JSON.stringify(canvasParams));
+  localStorage.setItem('colors', JSON.stringify(colors));
 });
