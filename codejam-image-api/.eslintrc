@@ -6,6 +6,7 @@
     "document": true,
     "console": false,
     "NodeList": true,
-    "localStorage": true
+    "localStorage": true,
+    "fetch": false
   }
 }

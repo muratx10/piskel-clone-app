@@ -1,7 +1,5 @@
-$primaryColor: #757575;
-$primaryBgColor: #18a2b8;
-
 @import "iconFonts";
+@import "variables";
 
 body {
   margin: 0;
@@ -83,8 +81,9 @@ main {
     height: 100%;
 
     .toolsContainer__paintTools {
-      height: 246px;
+      height: 255px;
       border-radius: 5px;
+      overflow: hidden;
       box-shadow: 0 4px 4px rgba(0, 0, 0, 0.24), 0 0 4px rgba(0, 0, 0, 0.12);
 
       .toolsContainer__item {
@@ -200,6 +199,9 @@ main {
     justify-self: center;
     width: available;
     min-width: 600px;
+    display: grid;
+    grid: 0.5fr 0.5fr 10fr 1fr / 1fr;
+    justify-items: center;
 
     .canvasSection__search {
       width: 85%;
@@ -224,22 +226,11 @@ main {
       text-transform: uppercase;
       font-weight: bold;
       text-align: center;
-      font-size: 20px;
+      font-size: 14px;
       height: 35px;
       line-height: 35px;
-      margin-top: 15px;
+      margin: 5px 0;
       border-radius: 5px;
-      margin-right: 5px;
-    }
-  }
-
-  .input-group {
-    width: 95%;
-    .input-group-prepend {
-      margin-left: 20px;
-    }
-    .input-group-text {
-      width: 40px;
     }
   }
 
@@ -352,4 +343,14 @@ main {
 
 .active {
   background: lighten($primaryBgColor, 50%);
+}
+
+.input-group {
+  width: 95%;
+  .input-group-prepend {
+    margin-left: 20px;
+  }
+  .input-group-text {
+    width: 40px;
+  }
 }

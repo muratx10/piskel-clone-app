@@ -1,3 +1,7 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-console */
+/* eslint-disable arrow-parens */
+import { getCity } from './fetch';
 import '../styles/styles.scss';
 
 /* eslint-disable prefer-destructuring */
@@ -25,11 +29,12 @@ const Palette = {
     activeTool: null,
     colorRGBA: [],
     colorHEX: '',
+    pencilRes: '128',
   },
   canvasParams: {
-    width: 512,
-    height: 512,
-    resolution: 4,
+    width: 128,
+    height: 128,
+    resolution: 128,
   },
   init() {
     this.elements.prevColor.style.background = '#000000';
@@ -96,7 +101,7 @@ const Palette = {
     this.elements.ctx.putImageData(fillImage, 0, 0);
   },
   draw(e) {
-    const pixelSize = this.canvasParams.width / this.canvasParams.resolution;
+    const pixelSize = 512 / this.state.pencilRes;
     const coordsX = Math.trunc(e.offsetX / pixelSize) * pixelSize;
     const coordsY = Math.trunc(e.offsetY / pixelSize) * pixelSize;
     const imgData = this.elements.ctx.createImageData(pixelSize, pixelSize);
@@ -108,8 +113,26 @@ const Palette = {
     }
     this.elements.ctx.putImageData(imgData, coordsX, coordsY);
   },
-  scaleCanvas() {
-
+  drawImg(data) {
+    // eslint-disable-next-line no-undef
+    this.elements.ctx.clearRect(0, 0, this.canvasParams.resolution, this.canvasParams.resolution);
+    const img = new Image();
+    img.crossOrigin = 'Anonymous';
+    img.src = data;
+    img.onload = () => {
+      if (img.width > img.height) {
+        const dWidth = this.canvasParams.width;
+        const dHeight = (this.canvasParams.width / img.width) * img.height;
+        this.elements.ctx.drawImage(img, 0, (this.canvasParams.height - dHeight) / 2, dWidth, dHeight);
+      } else if (img.height > img.width) {
+        const dWidth = (this.canvasParams.width / img.height) * img.width;
+        const dHeight = this.canvasParams.height;
+        this.elements.ctx.drawImage(img, (this.canvasParams.width - dWidth) / 2, 0, dWidth, dHeight);
+      } else {
+        this.elements.ctx.drawImage(img, 0, 0, this.canvasParams.width, this.canvasParams.height);
+        this.elements.ctx.drawImage(img, 0, 0);
+      }
+    };
   },
   switchTool(e, toolName) {
     const elem = e.target.closest('.toolsContainer__item');
@@ -187,10 +210,19 @@ const Palette = {
       this.switchTool(e);
       if (e.target.classList.contains('sideBar__item')) {
         this.canvasParams.resolution = e.target.children[0].value;
+        this.canvasParams.width = this.canvasParams.resolution;
+        this.canvasParams.height = this.canvasParams.resolution;
+        this.state.pencilRes = this.canvasParams.resolution;
       } else if (e.target.classList.contains('checkmark')) {
         this.canvasParams.resolution = e.target.previousSibling.previousSibling.value;
+        this.canvasParams.width = this.canvasParams.resolution;
+        this.canvasParams.height = this.canvasParams.resolution;
+        this.state.pencilRes = this.canvasParams.resolution;
       } else if (e.target.classList.contains('input-radio')) {
         this.canvasParams.resolution = e.target.value;
+        this.canvasParams.width = this.canvasParams.resolution;
+        this.canvasParams.height = this.canvasParams.resolution;
+        this.state.pencilRes = this.canvasParams.resolution;
       }
       if (canvasElem) {
         switch (this.state.activeTool) {
@@ -259,8 +291,19 @@ const Palette = {
     });
     this.elements.searchForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      console.log(this.elements.searchInput.value);
-      this.elements.selectedCity.textContent = this.elements.searchInput.value;
+      this.state.currentSearchText = this.elements.searchInput.value;
+      console.log(this.canvasParams.width, this.canvasParams.height);
+      getCity(this.state.currentSearchText)
+        .then(response => {
+          localStorage.setItem('img', response.urls.small);
+          this.drawImg(response.urls.small);
+          if (response.location.name !== null) {
+            this.elements.selectedCity.textContent = response.location.name;
+          } else {
+            this.elements.selectedCity.textContent = response.alt_description;
+          }
+        })
+        .catch(error => console.log(error));
       this.elements.searchForm.reset();
     });
   },

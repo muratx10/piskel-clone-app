@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint ./src/scripts/app.js --fix",
     "build": "webpack --mode production",
-    "dev": "webpack-dev-server --mode development --open 'Google Chrome'"
+    "dev": "webpack-dev-server --mode development --open 'Firefox'"
   },
   "repository": {
     "type": "git",

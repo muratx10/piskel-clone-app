@@ -50,14 +50,12 @@ const conf = {
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              outputPath: 'assets/images',
-            },
+        use: {
+          loader: 'file-loader',
+          options: {
+            outputPath: 'assets/images',
           },
-        ],
+        },
       },
       {
         test: /\.(woff|woff2|ttf|otf|eot)$/,
