@@ -1,5 +1,6 @@
 import Pen from '../../components/pen/pen';
 import Stroke from '../../components/stroke/stroke';
+import Eraser from '../../components/eraser/eraser';
 
 const mainCanvas = document.getElementById('main-canvas');
 
@@ -33,11 +34,12 @@ export default class SelectTools {
     });
     this.pen();
     this.stroke();
+    this.eraser();
   }
 
   pen() {
     const penTool = document.getElementById('penTool');
-    mainCanvas.addEventListener('mouseenter', (e) => {
+    mainCanvas.addEventListener('mouseenter', () => {
       if (penTool.classList.contains('chosen')) {
         new Pen(mainCanvas);
       }
@@ -49,6 +51,15 @@ export default class SelectTools {
     mainCanvas.addEventListener('mouseenter', () => {
       if (strokeTool.classList.contains('chosen')) {
         new Stroke(mainCanvas);
+      }
+    });
+  }
+
+  eraser() {
+    const eraserTool = document.getElementById('eraserTool');
+    mainCanvas.addEventListener('mouseenter', () => {
+      if (eraserTool.classList.contains('chosen')) {
+        new Eraser(mainCanvas);
       }
     });
   }

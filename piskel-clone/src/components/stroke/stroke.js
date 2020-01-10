@@ -53,7 +53,7 @@ export default class Stroke {
       mainCanvasImageURL = this.mainCanvas.toDataURL('image/png');
     });
 
-    this.mainCanvas.addEventListener('mousemove', e => this.drawStroke(e, positionX, positionY, mainCanvasImageURL));
+    this.mainCanvas.addEventListener('mousemove', (e) => this.drawStroke(e, positionX, positionY, mainCanvasImageURL));
 
     document.body.addEventListener('mouseup', () => {
       this.isMouseDown = false;
