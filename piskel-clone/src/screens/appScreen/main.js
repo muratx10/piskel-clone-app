@@ -1,7 +1,10 @@
-import Pen from '../../components/pen/pen';
-import Stroke from '../../components/stroke/stroke';
-import Eraser from '../../components/eraser/eraser';
-import Rectangle from '../../components/rectangle/rectangle';
+import Pen from '../../components/pen';
+import Stroke from '../../components/stroke';
+import Eraser from '../../components/eraser';
+import Rectangle from '../../components/rectangle';
+import Circle from '../../components/circle';
+import Clear from '../../components/clear';
+import Bucket from '../../components/bucket';
 
 const mainCanvas = document.getElementById('main-canvas');
 
@@ -37,6 +40,9 @@ export default class SelectTools {
     this.stroke();
     this.eraser();
     this.rectangle();
+    this.circle();
+    this.clear();
+    this.bucket();
   }
 
   pen() {
@@ -71,6 +77,33 @@ export default class SelectTools {
     mainCanvas.addEventListener('mouseenter', () => {
       if (rectTool.classList.contains('chosen')) {
         new Rectangle(mainCanvas);
+      }
+    });
+  }
+
+  circle() {
+    const circleTool = document.getElementById('circleTool');
+    mainCanvas.addEventListener('mouseenter', () => {
+      if (circleTool.classList.contains('chosen')) {
+        new Circle(mainCanvas);
+      }
+    });
+  }
+
+  clear() {
+    const clearTool = document.getElementById('clearTool');
+    mainCanvas.addEventListener('mouseenter', () => {
+      if (clearTool.classList.contains('chosen')) {
+        new Clear(mainCanvas);
+      }
+    });
+  }
+
+  bucket() {
+    const bucketTool = document.getElementById('bucketTool');
+    mainCanvas.addEventListener('mouseenter', () => {
+      if (bucketTool.classList.contains('chosen')) {
+        new Bucket(mainCanvas);
       }
     });
   }
