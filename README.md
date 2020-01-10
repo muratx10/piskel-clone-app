@@ -1,3 +1,9 @@
-# codejam-image-api
+# simple-piskel-clone
+#### [Task description](https://github.com/rolling-scopes-school/tasks/blob/master/tasks/piskel-clone.md)
 
-#### [Task description](https://github.com/rolling-scopes-school/tasks/blob/master/tasks/stage-2/codejam-image-api/codejam-image-api_ru.md)
+---
+Start time | End time | time spent | feature
+--- | --- | --- | ---
+Jan 4 | Jan 4| 1h | start project, setup environment and base structure
+#### Total time: 1h
+---
