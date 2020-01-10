@@ -5,6 +5,7 @@ import Rectangle from '../../components/rectangle';
 import Circle from '../../components/circle';
 import Clear from '../../components/clear';
 import Bucket from '../../components/bucket';
+import ColorPicker from '../../components/colorPicker';
 
 const mainCanvas = document.getElementById('main-canvas');
 
@@ -43,6 +44,7 @@ export default class SelectTools {
     this.circle();
     this.clear();
     this.bucket();
+    this.colorPicker();
   }
 
   pen() {
@@ -104,6 +106,15 @@ export default class SelectTools {
     mainCanvas.addEventListener('mouseenter', () => {
       if (bucketTool.classList.contains('chosen')) {
         new Bucket(mainCanvas);
+      }
+    });
+  }
+
+  colorPicker() {
+    const pipetteTool = document.getElementById('pipetteTool');
+    mainCanvas.addEventListener('click', (e) => {
+      if (pipetteTool.classList.contains('chosen')) {
+        new ColorPicker(e, mainCanvas);
       }
     });
   }
