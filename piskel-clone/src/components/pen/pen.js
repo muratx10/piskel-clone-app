@@ -3,6 +3,7 @@ export default class Pen {
     this.isMouseDown = false;
     this.mainCanvas = mainCanvas;
     this.paintingCanvas();
+    this.ctx = mainCanvas.getContext('2d');
   }
 
   paintingCanvas() {
@@ -18,16 +19,12 @@ export default class Pen {
   }
 
   penDraw(e) {
-    const ctx = this.mainCanvas.getContext('2d');
     const penTool = document.getElementById('penTool');
     if (penTool.classList.contains('chosen')) {
       const chosenLine = document.querySelector('.chosen-line');
       const line = getComputedStyle(chosenLine).width.slice(0, -2);
-
-      const primaryColorInput = document.getElementById('primary-color');
-      const primaryColor = primaryColorInput.value;
-
-      ctx.lineWidth = line;
+      const primaryColor = document.getElementById('primary-color').value;
+      this.ctx.lineWidth = line;
 
       if (this.isMouseDown) {
         const canvasWidth = this.mainCanvas.width;
@@ -35,8 +32,8 @@ export default class Pen {
         const pixelWidth = realCanvasSize / canvasWidth;
         const penX = Math.floor(e.offsetX / pixelWidth);
         const penY = Math.floor(e.offsetY / pixelWidth);
-        ctx.fillStyle = primaryColor;
-        ctx.fillRect(penX, penY, line / 7, line / 7);
+        this.ctx.fillStyle = primaryColor;
+        this.ctx.fillRect(penX, penY, line / 7, line / 7);
       }
     }
 

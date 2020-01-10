@@ -1,4 +1,5 @@
 import Pen from '../../components/pen/pen';
+import Stroke from '../../components/stroke/stroke';
 
 const mainCanvas = document.getElementById('main-canvas');
 
@@ -14,6 +15,7 @@ allFrames.forEach((item, i) => {
 export default class SelectTools {
   constructor() {
     this.selectTool();
+    SelectTools.lineWidth();
   }
 
   selectTool() {
@@ -30,6 +32,7 @@ export default class SelectTools {
       });
     });
     this.pen();
+    this.stroke();
   }
 
   pen() {
@@ -37,6 +40,31 @@ export default class SelectTools {
     mainCanvas.addEventListener('mouseenter', (e) => {
       if (penTool.classList.contains('chosen')) {
         new Pen(mainCanvas);
+      }
+    });
+  }
+
+  stroke() {
+    const strokeTool = document.getElementById('strokeTool');
+    mainCanvas.addEventListener('mouseenter', () => {
+      if (strokeTool.classList.contains('chosen')) {
+        new Stroke(mainCanvas);
+      }
+    });
+  }
+
+  static lineWidth() {
+    const lineWidthContainer = document.querySelector('.line-width-wrapper');
+    const lineWidths = document.querySelectorAll('.line-width');
+
+    lineWidthContainer.addEventListener('click', (e) => {
+      lineWidths.forEach((item) => {
+        if (e.target.classList.contains('line-width')) {
+          item.classList.remove('chosen-line');
+        }
+      });
+      if (e.target.classList.contains('line-width')) {
+        e.target.classList.add('chosen-line');
       }
     });
   }
