@@ -5,5 +5,6 @@
 Start time | End time | time spent | feature
 --- | --- | --- | ---
 Jan 4 | Jan 4| 1h | start project, setup environment and base structure
-#### Total time: 1h
+Jan 5 | Jan 6| 17h | basic tools implementation
+#### Total time: 18h
 ---

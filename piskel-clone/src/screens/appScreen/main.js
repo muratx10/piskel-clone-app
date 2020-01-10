@@ -1,6 +1,7 @@
 import Pen from '../../components/pen/pen';
 import Stroke from '../../components/stroke/stroke';
 import Eraser from '../../components/eraser/eraser';
+import Rectangle from '../../components/rectangle/rectangle';
 
 const mainCanvas = document.getElementById('main-canvas');
 
@@ -35,6 +36,7 @@ export default class SelectTools {
     this.pen();
     this.stroke();
     this.eraser();
+    this.rectangle();
   }
 
   pen() {
@@ -60,6 +62,15 @@ export default class SelectTools {
     mainCanvas.addEventListener('mouseenter', () => {
       if (eraserTool.classList.contains('chosen')) {
         new Eraser(mainCanvas);
+      }
+    });
+  }
+
+  rectangle() {
+    const rectTool = document.getElementById('rectTool');
+    mainCanvas.addEventListener('mouseenter', () => {
+      if (rectTool.classList.contains('chosen')) {
+        new Rectangle(mainCanvas);
       }
     });
   }
