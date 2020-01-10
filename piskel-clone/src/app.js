@@ -1,4 +1,5 @@
 import './screens/appScreen/app.scss';
+import SelectTools from './screens/appScreen/main';
 
 import penIcon from './screens/appScreen/assets/pen.png';
 import eraserIcon from './screens/appScreen/assets/eraser.png';
@@ -38,3 +39,5 @@ document.getElementById('rotate-color').src = rotateColorIcon;
 document.getElementById('reflect').src = reflectIcon;
 document.getElementById('rotate').src = rotateIcon;
 document.getElementById('keyboard-tool').src = keyboardIcon;
+
+const APP = new SelectTools();
