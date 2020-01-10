@@ -83,12 +83,14 @@ const conf = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: 'bundle.css',
+      // filename: 'bundle.css',
       sourceMap: true,
     }),
     new HtmlWebpackPlugin({
       template: 'src/screens/startScreen/index.html',
       title: 'Simple Piskel Clone',
+      filename: 'index.html',
+      chunks: ['index'],
       minify: {
         collapseWhitespace: true,
         removeComments: true,
@@ -102,6 +104,7 @@ const conf = {
       template: 'src/screens/appScreen/app.html',
       title: 'Simple Piskel Clone',
       filename: 'app.html',
+      chunks: ['app'],
       minify: {
         collapseWhitespace: true,
         removeComments: true,
@@ -124,6 +127,6 @@ const conf = {
 module.exports = (env, options) => {
   conf.devtool = options.mode === 'production'
     ? false
-    : 'eval-source-map';
+    : 'source-map';
   return conf;
 };
