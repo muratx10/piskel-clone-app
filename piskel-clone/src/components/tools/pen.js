@@ -1,4 +1,4 @@
-import FramesColor from '../frames-list/frameColor';
+import FramesRender from '../frames-list/frameRender';
 
 export default class Pen {
   constructor(mainCanvas) {
@@ -32,7 +32,7 @@ export default class Pen {
         const canvas = document.querySelectorAll('.frame');
         canvas.forEach((item) => {
           if (item.classList.contains('selected-frame')) {
-            new FramesColor(this.mainCanvas, item);
+            new FramesRender(this.mainCanvas, item);
           }
         });
 

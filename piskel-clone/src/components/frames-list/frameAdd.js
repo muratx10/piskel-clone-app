@@ -1,7 +1,7 @@
 import wasteBin from '../../screens/appScreen/assets/waste-bin.png';
 import copyImg from '../../screens/appScreen/assets/copy.png';
 import Animation from '../animation/animation';
-import FramesColor from './frameColor';
+import FramesRender from './frameRender';
 
 const framesContainer = document.querySelector('.frames-wrapper');
 
@@ -44,7 +44,7 @@ export default class FramesAdd {
       });
 
       canvas.classList.add('selected-frame');
-      new FramesColor(this.mainCanvas, canvas);
+      new FramesRender(this.mainCanvas, canvas);
       this.frameBorderToggle();
     });
   }

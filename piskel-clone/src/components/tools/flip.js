@@ -1,4 +1,4 @@
-import FramesColor from '../frames-list/frameColor';
+import FramesRender from '../frames-list/frameRender';
 
 export default class Flip {
   constructor(mainCanvas) {
@@ -28,7 +28,7 @@ export default class Flip {
       if (item.classList.contains('selected-frame')) {
         const ctxFrame = item.getContext('2d');
         ctxFrame.clearRect(0, 0, item.width, item.height);
-        new FramesColor(this.mainCanvas, item);
+        new FramesRender(this.mainCanvas, item);
       }
     });
 

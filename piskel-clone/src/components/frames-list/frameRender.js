@@ -1,15 +1,15 @@
 import Animation from '../animation/animation';
 
-export default class FramesColor {
+export default class FramesRender {
   constructor(mainCanvas, canvas) {
     this.mainCanvas = mainCanvas;
     this.canvas = canvas;
-    this.frameColor();
+    this.frameRender();
   }
 
   // adding a real image to a frame
 
-  frameColor() {
+  frameRender() {
     const ctx = this.canvas.getContext('2d');
 
     const img = new Image(64, 64);
