@@ -1,18 +1,86 @@
 /* RESET STYLES */
 
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
   font: inherit;
   font-size: 100%;
   margin: 0;
@@ -22,8 +90,17 @@ time, mark, audio, video {
 }
 
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section {
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
   display: block;
 }
 
@@ -31,17 +108,21 @@ body {
   line-height: 1;
 }
 
-ol, ul {
+ol,
+ul {
   list-style: none;
 }
 
-blockquote, q {
+blockquote,
+q {
   quotes: none;
 }
 
-blockquote:before, blockquote:after,
-q:before, q:after {
-  content: '';
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
   content: none;
 }
 
@@ -53,16 +134,16 @@ table {
 /*STYLES */
 
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   position: relative;
-  color: #FFFFFF;
+  color: #ffffff;
   background-color: #404040;
 }
 
 header {
   width: 100%;
   height: 65px;
-  background-color: #5E5C5C;
+  background-color: #5e5c5c;
 }
 
 .header {
@@ -96,29 +177,29 @@ button:focus {
 .line-1 {
   width: 7px;
   height: 7px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
 .line-2 {
   width: 14px;
   height: 14px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
 .line-3 {
   width: 21px;
   height: 21px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
 .line-4 {
   width: 28px;
   height: 28px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
 .chosen-line {
-  background-color: #DFC08E;
+  background-color: #dfc08e;
 }
 
 .line-1,
@@ -132,7 +213,7 @@ button:focus {
 .line-2:hover,
 .line-3:hover,
 .line-4:hover {
-  background: darken(#FFFFFF, 50%);
+  background: darken(#ffffff, 50%);
 }
 
 .tools-wrapper {
@@ -154,8 +235,8 @@ button {
   margin-top: 15px;
   margin-left: 15px;
   cursor: pointer;
-  border: 1px solid #FFFFFF;
-  background-color: #FFFFFF;
+  border: 1px solid #ffffff;
+  background-color: #ffffff;
 }
 
 .tools {
@@ -172,11 +253,11 @@ button {
   margin-left: 10px;
   transition: 200ms;
   border-radius: 5px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 
   &:hover {
-    border: 1px solid #FEFE00;
-    background: darken(#FFFFFF, 40%);
+    border: 1px solid #fefe00;
+    background: darken(#ffffff, 40%);
   }
 }
 
@@ -224,7 +305,7 @@ button {
   margin-left: 25px;
   padding: 0;
   border: none;
-  background-color: #FEFE00;
+  background-color: #fefe00;
 }
 
 .circle {
@@ -243,22 +324,22 @@ button {
 
 .coord {
   margin-top: 10px;
-  color: #FEFE00;
+  color: #fefe00;
 }
 
 .main-canvas {
   width: 640px;
   height: 640px;
-  background-color: #C2C2C2;
+  background-color: #c2c2c2;
   image-rendering: pixelated;
 }
 
 .chosen {
-  background-color: #DFC08E;
+  background-color: #dfc08e;
 }
 
 .child-cell.over {
-  border: 2px dashed #3A595A;
+  border: 2px dashed #3a595a;
 }
 
 .frames-tool-wrapper {
@@ -271,12 +352,12 @@ button {
   width: 150px;
   height: 50px;
   margin-left: 25px;
-  border: 1px solid #C09A99;
+  border: 1px solid #c09a99;
   border-radius: 5px;
 }
 
 .newFrame:active {
-  background-color: #F9EDDB;
+  background-color: #f9eddb;
 }
 
 .frames-wrapper {
@@ -303,7 +384,7 @@ button {
 .selected-frame {
   border-width: 1px;
   border-style: solid;
-  border-color: #FEFE00;
+  border-color: #fefe00;
 }
 
 .canvasWrapper {
@@ -317,7 +398,7 @@ button {
   padding: 2px;
   border: 1px solid #000000;
   border-radius: 3px;
-  background: #FDF1D8;
+  background: #fdf1d8;
 }
 
 .copy {
@@ -327,7 +408,7 @@ button {
   padding: 2px;
   border: 1px solid black;
   border-radius: 3px;
-  background: #FDF1D8;
+  background: #fdf1d8;
 }
 
 .player-wrapper {
@@ -337,7 +418,7 @@ button {
   margin-left: 5%;
   padding-top: 20px;
   border: 1px solid #000000;
-  background: #5E5C5C;
+  background: #5e5c5c;
 }
 
 .animation-canvas {
@@ -380,7 +461,7 @@ button {
 
 .animation-canvas:fullscreen {
   padding: 25%;
-  background-color: #5E5C5C;
+  background-color: #5e5c5c;
 }
 
 .frames-wrapper::-webkit-scrollbar-track {
@@ -390,7 +471,7 @@ button {
 .frames-wrapper::-webkit-scrollbar-thumb {
   -webkit-border-radius: 5px;
   border-radius: 5px;
-  background-color: #5E5C5C;
+  background-color: #5e5c5c;
 }
 
 .frames-wrapper::-webkit-scrollbar {
@@ -423,7 +504,7 @@ header {
   display: flex;
   justify-content: space-around;
   color: #696969;
-  background: #FFD700;
+  background: #ffd700;
 }
 
 /* keyboadrs */
@@ -435,7 +516,7 @@ header {
   width: 650px;
   height: 320px;
   border: 1px solid #000000;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
 .hidden {
@@ -468,9 +549,8 @@ header {
 }
 
 .hotkeys-close {
-  position: relative;
-  bottom: 250px;
+  position: absolute;
+  bottom: 290px;
   left: 605px;
-  background-color: #FFD700;
+  background-color: #ffd700;
 }
-
