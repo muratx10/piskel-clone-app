@@ -121,6 +121,13 @@ const conf = {
         toType: 'file',
       },
     ]),
+    new CopyPlugin([
+      {
+        from: './src/library/gif.js',
+        to: './gif.js',
+        toType: 'file',
+      },
+    ]),
   ],
 };
 

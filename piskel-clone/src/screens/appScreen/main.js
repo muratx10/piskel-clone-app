@@ -1,11 +1,23 @@
-import Pen from '../../components/pen';
-import Stroke from '../../components/stroke';
-import Eraser from '../../components/eraser';
-import Rectangle from '../../components/rectangle';
-import Circle from '../../components/circle';
-import Clear from '../../components/clear';
-import Bucket from '../../components/bucket';
-import ColorPicker from '../../components/colorPicker';
+import Pen from '../../components/tools/pen';
+import Stroke from '../../components/tools/stroke';
+import Eraser from '../../components/tools/eraser';
+import Rectangle from '../../components/tools/rectangle';
+import Circle from '../../components/tools/circle';
+import Clear from '../../components/tools/clear';
+import Bucket from '../../components/tools/bucket';
+import ColorPicker from '../../components/tools/colorPicker';
+import Move from '../../components/tools/move';
+import FramesAdd from '../../components/frames-list/frameAdd';
+import Rotate from '../../components/tools/rotate';
+import Keyboard from '../../components/tools/keyboard';
+import ExportGIF from '../../components/exportGIF';
+import Flip from '../../components/tools/flip';
+import MirrorPen from '../../components/tools/mirrorPen';
+
+import wasteBin from './assets/waste-bin.png';
+import copyImg from './assets/copy.png';
+import rotateColor from './assets/rotate-col.png';
+
 
 const mainCanvas = document.getElementById('main-canvas');
 
@@ -18,13 +30,24 @@ allFrames.forEach((item, i) => {
   allFrames[i].height = 64;
 });
 
+const primaryColor = document.getElementById('primary-color');
+primaryColor.value = '#FEFE00';
+
 export default class SelectTools {
   constructor() {
     this.selectTool();
-    SelectTools.lineWidth();
+    this.addOtherFrames();
+    this.speedValue();
+    this.addFirstFrame();
+    new Flip(mainCanvas);
   }
 
   selectTool() {
+    this.showCoords();
+    const pen = document.getElementById('penTool');
+    const line = document.getElementById('line-3');
+    line.classList.add('chosen-line');
+    pen.classList.add('chosen');
     const tools = document.getElementById('tools');
     const tool = document.querySelectorAll('.tool');
     const toolImg = document.querySelectorAll('.img-tool');
@@ -45,6 +68,8 @@ export default class SelectTools {
     this.clear();
     this.bucket();
     this.colorPicker();
+    this.move();
+    this.mirrorPen();
   }
 
   pen() {
@@ -52,6 +77,15 @@ export default class SelectTools {
     mainCanvas.addEventListener('mouseenter', () => {
       if (penTool.classList.contains('chosen')) {
         new Pen(mainCanvas);
+      }
+    });
+  }
+
+  mirrorPen() {
+    const mirrorTool = document.getElementById('mirrorTool');
+    mainCanvas.addEventListener('mouseenter', () => {
+      if (mirrorTool.classList.contains('chosen')) {
+        new MirrorPen(mainCanvas);
       }
     });
   }
@@ -117,6 +151,79 @@ export default class SelectTools {
         new ColorPicker(e, mainCanvas);
       }
     });
+  }
+
+  move() {
+    const moveTool = document.getElementById('moveTool');
+    mainCanvas.addEventListener('mouseenter', () => {
+      if (moveTool.classList.contains('chosen')) {
+        new Move(mainCanvas);
+      }
+    });
+  }
+
+  colorRotate() {
+    const rotateCol = document.getElementById('rotate-color');
+    rotateCol.addEventListener('click', () => {
+      const primaryColorInput = document.getElementById('primary-color');
+      const secondaryColorInput = document.getElementById('secondary-color');
+
+      const bufferColor = secondaryColorInput.value;
+      secondaryColorInput.value = primaryColorInput.value;
+      primaryColorInput.value = bufferColor;
+    });
+  }
+
+  addFirstFrame() {
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('remove').src = wasteBin;
+      document.getElementById('copy').src = copyImg;
+      const selectedFrame = document.getElementById('frame');
+      selectedFrame.classList.add('selected-frame');
+
+      document.getElementById('rotate-color').src = rotateColor;
+      this.colorRotate();
+
+      SelectTools.lineWidth();
+      new Rotate(mainCanvas);
+      new Keyboard();
+      new ExportGIF();
+    });
+  }
+
+  addOtherFrames() {
+    const newFrameBtn = document.getElementById('new-frame-button');
+    newFrameBtn.addEventListener('click', () => {
+      new FramesAdd(mainCanvas);
+    }, { once: true });
+  }
+
+  showCoords() {
+    mainCanvas.addEventListener('mousemove', (e) => {
+      const canvasWidth = mainCanvas.width;
+      const realCanvasSize = getComputedStyle(mainCanvas).width.slice(0, -2);
+      const pixelWidth = realCanvasSize / canvasWidth;
+      const penX = Math.floor(e.offsetX / pixelWidth);
+      const penY = Math.floor(e.offsetY / pixelWidth);
+
+      const coord = document.getElementById('coord');
+      coord.innerHTML = ` ${penX}:${penY}`;
+    });
+
+    mainCanvas.addEventListener('mouseleave', () => {
+      const coord = document.getElementById('coord');
+      coord.innerHTML = ' ';
+    });
+  }
+
+  speedValue() {
+    const speed = document.getElementById('speedAnimation');
+    function getSpeedValue() {
+      const speedValue = speed.value;
+      speed.title = `${speedValue}`;
+    }
+    document.addEventListener('DOMContentLoaded', getSpeedValue);
+    speed.addEventListener('input', getSpeedValue);
   }
 
   static lineWidth() {

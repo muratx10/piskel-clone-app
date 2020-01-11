@@ -1,3 +1,5 @@
+import FramesColor from '../frames-list/frameColor';
+
 export default class Clear {
   constructor(mainCanvas) {
     this.mainCanvas = mainCanvas;
@@ -15,6 +17,15 @@ export default class Clear {
 
     if (clearTool.classList.contains('chosen')) {
       ctx.clearRect(0, 0, canvasWidth, canvasWidth);
+
+      const canvas = document.querySelectorAll('.frame');
+      canvas.forEach((item) => {
+        if (item.classList.contains('selected-frame')) {
+          const ctxFrame = item.getContext('2d');
+          ctxFrame.clearRect(0, 0, item.width, item.height);
+          new FramesColor(this.mainCanvas, item);
+        }
+      });
     } else {
       this.mainCanvas.removeEventListener('mousedown', () => this.clear());
     }

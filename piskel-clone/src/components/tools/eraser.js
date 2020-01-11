@@ -1,3 +1,5 @@
+import FramesColor from '../frames-list/frameColor';
+
 export default class Eraser {
   constructor(mainCanvas) {
     this.isMouseDown = false;
@@ -31,6 +33,15 @@ export default class Eraser {
         const penX = Math.floor(e.offsetX / pixelWidth);
         const penY = Math.floor(e.offsetY / pixelWidth);
         ctx.clearRect(penX, penY, line / 7, line / 7);
+
+        const canvas = document.querySelectorAll('.frame');
+        canvas.forEach((item) => {
+          if (item.classList.contains('selected-frame')) {
+            const ctxFrame = item.getContext('2d');
+            ctxFrame.clearRect(0, 0, item.width, item.height);
+            new FramesColor(this.mainCanvas, item);
+          }
+        });
       }
 
       ctx.globalCompositeOperation = 'source-over';

@@ -1,3 +1,5 @@
+import FramesColor from '../frames-list/frameColor';
+
 export default class Pen {
   constructor(mainCanvas) {
     this.isMouseDown = false;
@@ -27,6 +29,13 @@ export default class Pen {
       this.ctx.lineWidth = line;
 
       if (this.isMouseDown) {
+        const canvas = document.querySelectorAll('.frame');
+        canvas.forEach((item) => {
+          if (item.classList.contains('selected-frame')) {
+            new FramesColor(this.mainCanvas, item);
+          }
+        });
+
         const canvasWidth = this.mainCanvas.width;
         const realCanvasSize = getComputedStyle(this.mainCanvas).width.slice(0, -2);
         const pixelWidth = realCanvasSize / canvasWidth;

@@ -58,8 +58,8 @@
     "webpack-dev-server": "^3.9.0"
   },
   "dependencies": {
-    "gif.js.optimized": "^1.0.1",
     "lodash": "^4.17.15",
-    "upng-js": "^2.1.0"
+    "upng-js": "^2.1.0",
+    "gif.js.optimized": "^1.0.1"
   }
 }

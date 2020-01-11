@@ -121,6 +121,20 @@ button:focus {
   background-color: #DFC08E;
 }
 
+.line-1,
+.line-2,
+.line-3,
+.line-4 {
+  transition: 200ms;
+}
+
+.line-1:hover,
+.line-2:hover,
+.line-3:hover,
+.line-4:hover {
+  background: darken(#FFFFFF, 50%);
+}
+
 .tools-wrapper {
   width: 200px;
   height: 800px;
@@ -156,8 +170,14 @@ button {
   width: 45px;
   height: 45px;
   margin-left: 10px;
+  transition: 200ms;
   border-radius: 5px;
   background-color: #FFFFFF;
+
+  &:hover {
+    border: 1px solid #FEFE00;
+    background: darken(#FFFFFF, 40%);
+  }
 }
 
 .transform {
@@ -190,9 +210,14 @@ button {
   position: absolute;
   top: 48px;
   left: -10px;
+  transition: 100ms;
+
+  &:hover {
+    transform: rotate(360deg);
+  }
 }
 
-.keyboad-wrapper {
+.keyboard-wrapper {
   width: 64px;
   height: 40px;
   margin-top: 30px;
@@ -444,7 +469,7 @@ header {
 
 .hotkeys-close {
   position: relative;
-  bottom: 315px;
+  bottom: 250px;
   left: 605px;
   background-color: #FFD700;
 }

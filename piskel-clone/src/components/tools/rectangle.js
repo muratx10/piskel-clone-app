@@ -1,3 +1,5 @@
+import FramesColor from '../frames-list/frameColor';
+
 export default class Rectangle {
   constructor(mainCanvas) {
     this.isMouseDown = false;
@@ -32,7 +34,7 @@ export default class Rectangle {
       mainCanvasImageURL = this.mainCanvas.toDataURL('image/png');
     });
 
-    this.mainCanvas.addEventListener('mousemove', e => this.rectDraw(e, penX, penY, mainCanvasImageURL, lineWidth));
+    this.mainCanvas.addEventListener('mousemove', (e) => this.rectDraw(e, penX, penY, mainCanvasImageURL, lineWidth));
 
     this.mainCanvas.addEventListener('mouseup', () => {
       this.isMouseDown = false;
@@ -79,6 +81,15 @@ export default class Rectangle {
         ctx.lineTo(penX, targetY);
         ctx.closePath();
         ctx.stroke();
+
+        const canvas = document.querySelectorAll('.frame');
+        canvas.forEach((item) => {
+          if (item.classList.contains('selected-frame')) {
+            const ctxFrame = item.getContext('2d');
+            ctxFrame.clearRect(0, 0, item.width, item.height);
+            new FramesColor(this.mainCanvas, item);
+          }
+        });
       }
     }
 

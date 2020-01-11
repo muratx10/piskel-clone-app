@@ -1,3 +1,5 @@
+import FramesColor from '../frames-list/frameColor';
+
 export default class Circle {
   constructor(mainCanvas) {
     this.mainCanvas = mainCanvas;
@@ -26,10 +28,17 @@ export default class Circle {
       mainCanvasImageURL = this.mainCanvas.toDataURL('image/png');
     });
 
-    this.mainCanvas.addEventListener('mousemove', e => this.circleDraw(e, lineWidth, penX, penY, mainCanvasImageURL));
+    this.mainCanvas.addEventListener('mousemove', (e) => this.circleDraw(e, lineWidth, penX, penY, mainCanvasImageURL));
 
     document.body.addEventListener('mouseup', () => {
       this.isMouseDown = false;
+
+      const canvas = document.querySelectorAll('.frame');
+      canvas.forEach((item) => {
+        if (item.classList.contains('selected-frame')) {
+          new FramesColor(this.mainCanvas, item);
+        }
+      });
     });
   }
 

@@ -1,3 +1,7 @@
+/* eslint-disable no-bitwise */
+/* eslint-disable no-mixed-operators */
+import FramesColor from '../frames-list/frameColor';
+
 export default class Stroke {
   constructor(mainCanvas) {
     this.isMouseDown = false;
@@ -81,6 +85,15 @@ export default class Stroke {
         const targetY = Math.floor(e.offsetY / pixelWidth);
 
         this.brezLine(positionX, positionY, targetX, targetY);
+
+        const canvas = document.querySelectorAll('.frame');
+        canvas.forEach((item) => {
+          if (item.classList.contains('selected-frame')) {
+            const ctxFrame = item.getContext('2d');
+            ctxFrame.clearRect(0, 0, item.width, item.height);
+            new FramesColor(this.mainCanvas, item);
+          }
+        });
       }
     }
 
