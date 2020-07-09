@@ -1,2 +1,1 @@
-# muratx10-RS2019Q3
-Private repository for @muratx10
+### [✅LINK TO DEPLOYED PROJECT](https://simple-clone-piskel.netlify.app/)
